@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
-import HomePage from '../views/HomePage.vue'
 import Register from '../views/Register.vue'
 import Start from '../views/Start.vue'
-
-
+import UserCenter from '../views/UserCenter.vue'
+import AdminCenter from '../views/AdminCenter.vue'
+import HomePage from '../views/HomePage.vue'
+import Comment from '../views/Comment.vue'
+import Userinfochange from '../views/Userinfochange.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -13,11 +14,7 @@ const routes = [{
         name: 'Start',
         component: Start
     },
-    {
-        path: '/Login',
-        name: 'Login',
-        component: Login
-    },
+
     {
         path: '/Register',
         name: 'Register',
@@ -27,7 +24,27 @@ const routes = [{
         path: '/HomePage',
         name: 'HomePage',
         component: HomePage
-    }
+    },
+    {
+        path: '/HomePage/UserCenter',
+        name: 'UserCenter',
+        component: UserCenter
+    },
+    {
+        path: '/Comment',
+        name: 'Comment',
+        component: Comment
+    },
+    {
+        path: '/AdminCenter',
+        name: 'AdminCenter',
+        component: AdminCenter
+    },
+    {
+        path: '/HomePage/UserCenter/Userinfochange',
+        name: 'Userinfochange',
+        component: Userinfochange
+    },
 ]
 
 const router = new VueRouter({
