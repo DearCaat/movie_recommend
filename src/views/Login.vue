@@ -45,9 +45,14 @@
     },
     methods: {
       submitForm(formName) {
+        var _this = this
+        console.log(_this.formName)
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');
+            /* axios
+              .post(url,_this.formName)
+              .then(response => (this.info = response)) */
           } else {
             console.log('error submit!!');
             return false;
@@ -65,8 +70,8 @@
  			content:"";
  			/*-webkit-filter: opacity(50%);  
     		filter: opacity(50%); */
-    		background-image:url("../assets/images/bkg.jpg");
-    		opacity:0.3;
+    	background-image:url("../assets/images/bkg.jpg");
+    	opacity:0.3;
  			z-index:-1;
  			background-size:100%, 100%;
  			width:100%; 
@@ -75,7 +80,7 @@
  		}
  		.note{
  			position:fixed;
- 				width:100%; 
+ 			width:100%; 
  			height:100%;
 
  		}
