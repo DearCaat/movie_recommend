@@ -126,7 +126,7 @@
     }
   }
 </script>
-<style scope>
+<style scoped>
 .note::before{
  			content:"";
  			/*-webkit-filter: opacity(50%);  
