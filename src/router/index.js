@@ -6,7 +6,9 @@ import UserCenter from '../views/UserCenter.vue'
 import AdminCenter from '../views/AdminCenter.vue'
 import HomePage from '../views/HomePage.vue'
 import Comment from '../views/Comment.vue'
-import Userinfochange from '../views/Userinfochange.vue'
+import Recommand from '../views/Recommand.vue'
+import UserChangeInfo from '../views/UserChangeInfo.vue'
+
 Vue.use(VueRouter)
 
 const routes = [{
@@ -41,10 +43,16 @@ const routes = [{
         component: AdminCenter
     },
     {
-        path: '/HomePage/UserCenter/Userinfochange',
-        name: 'Userinfochange',
-        component: Userinfochange
+        path: '/Recommand',
+        name: 'Recommand',
+        component: Recommand
     },
+    {
+        path: '/UserChangeInfo',
+        name: 'UserChangeInfo',
+        component: UserChangeInfo
+    }
+
 ]
 
 const router = new VueRouter({
