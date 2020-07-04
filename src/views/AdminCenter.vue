@@ -1,37 +1,98 @@
 <template>
-<div  class="note" style="note">
+<div>
 <el-container>
   <el-header>
-  <el-menu :default-active="this.$route.path" router mode="horizontal">
-    <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
-        {{ item.navItem }}
-    </el-menu-item>
-</el-menu>
+    <el-col :span="12">
+      <div class="headAdmin">管理员界面</div>
+    </el-col>
+<el-col :span="12">
+<el-button type="primary" icon="el-icon-user-solid" @click="Logout()" class="LogoutAdmin" style="float:right">退出登录</el-button> 
+</el-col>
   </el-header>
-  <el-main>Main</el-main>
+  <el-main>
+<el-table
+    :data="tableData"
+    style="width: 100%"
+    max-height="700">
+    <el-table-column
+      fixed
+      prop="Name"
+      label="电影名称"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="Date"
+      label="电影发布日期"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="Director"
+      label="导演"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="scriptwriter"
+      label="编剧"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="Type"
+      label="类型"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      prop="Country"
+      label="国家"
+      width="120">
+    </el-table-column>
+    <el-table-column
+      fixed="right"
+      label="操作"
+      width="120">
+      <template slot-scope="scope">
+        <el-button
+          @click.native.prevent="deleteRow(scope.$index, tableData)"
+          type="text"
+          size="small">
+          移除
+        </el-button>
+        <el-button type="text" size="small">编辑</el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+
+  </el-main>
 </el-container>
 </div>
 </template>
 
 
 
-
-
 <script>
 export default {
-    name:"UserCenter",
+    name:"AdminCenter",
+    
      data() {
       return {
-        navList:[
-            {name:'/HomePage',navItem:'首页'},
-            {name:'/HomePage/UserCenter',navItem:'个人中心'},
-            {name:'/Recommand',navItem:'个性化推荐'},
-            {name:'/Comment',navItem:'电影评价'}
-        ]
+       tableData: [{
+          Name: 'Re:0',
+          Date: '2020',
+          Director: '忘了是谁',
+          scriptwriter: '更不知道',
+          Type: '动漫',
+          Country:'日本'
+        }]
       };
     },
+    
     methods: {
-      
+      Logout()
+      {
+        window.location.href="/";
+      },
+       deleteRow(index, rows) {
+        rows.splice(index, 1);
+      }
       }
  
 }
@@ -39,27 +100,8 @@ export default {
 
 
 <style scoped>
-.note::before{
- 			content:"";
- 			/*-webkit-filter: opacity(50%);  
-    		filter: opacity(50%); */
-    		background-image:url("../assets/images/bkg.jpg");
-    		opacity:0.3;
- 			z-index:-1;
- 			background-size:100%, 100%;
- 			width:100%; 
- 			height:100%;
- 			position:absolute;
- 		}
- 		.note{
- 			position:fixed;
- 				width:100%; 
- 			height:100%;
 
- 		}
 .el-header {
-    color: #333;
-    text-align: center;
     line-height: 60px;
   }
   
@@ -86,5 +128,11 @@ export default {
     padding:0 100px;
 }
 
-
+.LogoutAdmin{
+  text-align: left;
+}
+.headAdmin{
+  text-align: left;
+ 
+}
 </style>

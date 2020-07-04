@@ -19,7 +19,7 @@
 
 <script>
 export default {
-    name:"Comment",
+    name:"Recommand",
      data() {
       return {
         navList:[
