@@ -19,7 +19,7 @@
 
 <script>
 export default {
-    name:"UserCenter",
+    name:"Recommand",
      data() {
       return {
         navList:[
