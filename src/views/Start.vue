@@ -46,16 +46,26 @@
     methods: {
       submitForm(formName) {
         var _this = this
-        console.log(_this.ruleForm)
+        var data = {account:_this.ruleForm.username,
+                password: _this.ruleForm.password}
         this.$refs[formName].validate((valid) => {
           if (valid) {
-          alert('chenggong')
           _this.$axios
-              .post('http://47.94.167.33:8088/getAll',_this.ruleForm)
+              .post(_this.GLOBAL.baseURL+'login',data)
               .then(function (response){
+                if(response.data == '1'){
+                  window.location.href = '/HomePage'
+                }else if(response.data == 'null_user'){
+                  alert("用户不存在")
+                  _this.ruleForm.username = ""
+                  _this.ruleForm.password = ""
+                }else if(response.data == 'password_error'){
+                  _this.ruleForm.password = ""
+                  alert("密码错误")
+                }
+                
                 console.log(response)
-              }) 
-
+              })  
 
           } else {
             console.log('error submit!!');
@@ -63,6 +73,7 @@
           }
         });
       },
+
      cimsInputClick () {
       window.location.href = '/Register'
     }

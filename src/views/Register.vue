@@ -14,12 +14,12 @@
     <el-input type="password" v-model="ruleForm.password"></el-input>
   </el-form-item>
   <el-form-item label="确认密码" prop="pwdconfirm">
-    <el-input type="passwordc" v-model="ruleForm.pwdconfirm"></el-input>
+    <el-input type="password" v-model="ruleForm.pwdconfirm"></el-input>
   </el-form-item>
   <el-form-item label="性别" prop="sex">
     <el-radio-group v-model="ruleForm.sex">
-      <el-radio label="男"></el-radio>
-      <el-radio label="女"></el-radio>
+      <el-radio label="Male">男</el-radio>
+      <el-radio label="Female">女</el-radio>
     </el-radio-group>
   </el-form-item>
   <el-form-item label="年龄" prop="age">
@@ -27,8 +27,8 @@
   </el-form-item>
    <el-form-item label="是否管理员" prop="IsAdmin">
     <el-radio-group v-model="ruleForm.IsAdmin">
-      <el-radio label="是"></el-radio>
-      <el-radio label="否"></el-radio>
+      <el-radio label="True">是</el-radio>
+      <el-radio label="False">否</el-radio>
     </el-radio-group>
   </el-form-item>
     <el-form-item label="标签" prop="type">
@@ -111,12 +111,12 @@
         var _this = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
-            _this.$axios
-              .post('http://47.94.167.33:8088/getAll',_this.ruleForm)
+            console.log(_this.ruleForm)
+            /* _this.$axios
+              .post(_this.GLOBAL.baseURL+'register',_this.ruleForm)
               .then(function (response){
                 console.log(response)
-              }) 
+              })  */
 
           } else {
             console.log('error submit!!');
