@@ -16,7 +16,9 @@
   <el-form-item>
     <el-button style="width:100%;" type="primary" @click="submitForm('ruleForm')">登录</el-button>
   </el-form-item>
-  <el-link type="primary" id="goregister" href="/Register">还没有账号?去注册</el-link>
+  <el-link type="primary" id="goregister" href="/Register" style="float:right">还没有账号?去注册</el-link>
+   <el-link type="primary" id="AdminRegister" href="/AdminRegister" style="float:left">注册管理员账号</el-link>
+   <br>
 </el-form>
 </el-card>
 </div>
@@ -45,27 +47,11 @@
     },
     methods: {
       submitForm(formName) {
-        var _this = this
-        var data = {account:_this.ruleForm.username,
-                password: _this.ruleForm.password}
         this.$refs[formName].validate((valid) => {
           if (valid) {
-          _this.$axios
-              .post(_this.GLOBAL.baseURL+'login',data)
-              .then(function (response){
-                if(response.data == '1'){
-                  window.location.href = '/HomePage'
-                }else if(response.data == 'null_user'){
-                  alert("用户不存在")
-                  _this.ruleForm.username = ""
-                  _this.ruleForm.password = ""
-                }else if(response.data == 'password_error'){
-                  _this.ruleForm.password = ""
-                  alert("密码错误")
-                }
-                
-                console.log(response)
-              })  
+          alert('chenggong')
+
+
 
           } else {
             console.log('error submit!!');
@@ -73,7 +59,6 @@
           }
         });
       },
-
      cimsInputClick () {
       window.location.href = '/Register'
     }

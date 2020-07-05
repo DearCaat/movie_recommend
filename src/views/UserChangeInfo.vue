@@ -1,5 +1,5 @@
 <template>
-<div >
+<div>
 <el-container>
   <el-header>
   <el-menu :default-active="this.$route.path" router mode="horizontal">
@@ -16,7 +16,7 @@
       action="https://jsonplaceholder.typicode.com/posts/"
       :show-file-list="false"
        :before-upload="beforeAvatarUpload">
-  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+  <img v-if="imageUrl" :src="imageUrl" class="avatar">       <!--用户头像添加-->
   <i v-else class="el-icon-plus avatar-uploader-icon"></i>
 </el-upload>
       <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
@@ -35,15 +35,18 @@
   <el-form-item label="年龄" prop="age">
     <el-input type="text" v-model="ruleForm.age"></el-input>
   </el-form-item>
-   <el-form-item label="标签" prop="type">
-    <el-checkbox-group v-model="ruleForm.type">
-      <el-checkbox label="惊悚" name="type"></el-checkbox>
-      <el-checkbox label="悬疑" name="type"></el-checkbox>
-      <el-checkbox label="战争" name="type"></el-checkbox>
-      <el-checkbox label="恐怖" name="type"></el-checkbox>
-      <el-checkbox label="奇幻" name="type"></el-checkbox>
-      <el-checkbox label="喜剧" name="type"></el-checkbox>
-      <el-checkbox label="科幻" name="type"></el-checkbox>
+  <el-form-item label="个性签名" prop="sign">
+     <el-input v-model="ruleForm.sign"></el-input>
+  </el-form-item>
+   <el-form-item label="标签" prop="tag">
+    <el-checkbox-group v-model="ruleForm.tag">
+      <el-checkbox label="惊悚" name="tag"></el-checkbox>
+      <el-checkbox label="悬疑" name="tag"></el-checkbox>
+      <el-checkbox label="战争" name="tag"></el-checkbox>
+      <el-checkbox label="恐怖" name="tag"></el-checkbox>
+      <el-checkbox label="奇幻" name="tag"></el-checkbox>
+      <el-checkbox label="喜剧" name="tag"></el-checkbox>
+      <el-checkbox label="科幻" name="tag"></el-checkbox>
     </el-checkbox-group>
   </el-form-item>
  
@@ -74,30 +77,35 @@ export default {
             {name:'/Recommand',navItem:'个性化推荐'},
             {name:'/Comment',navItem:'电影评价'}
         ],
-        ruleForm: {
-          username: '',
-          password: '',
-          sex: '',
-          age:'',
-          type: []
-          
-        },
+          ruleForm: {
+            username: '',
+            password: '',
+            sex: '',
+            age:'',
+            sign:'',
+            tag: []
+            
+          },
         rules: {
           username: [
-            { required: true, message: '用户名', trigger: 'blur' },
+            { required: true, message: '请输入用户名', trigger: 'blur' },
             { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
           ],
           password: [
-            { required: true, message: '密码', trigger: 'change' }
+            { required: true, message: '请输入密码', trigger: 'change' }
           ],
           
-          type: [
-            { type: 'array', required: true, message: '喜爱标签', trigger: 'change' }
+          tag: [
+            { type: 'array', required: true, message: '请选择喜爱标签', trigger: 'change' }
           ],
-           sex:[   { required: true, message: '性别', trigger: 'change ' }
+           sex:[   { required: true, message: '请选择性别', trigger: 'change ' }
+          ],
+           sign: [
+            { required:false, min: 0, max: 50, message: '签名不得超过50个字符', trigger: 'blur' }
           ],
           age: [
-            { required: true, message: '年龄', trigger: 'blur' }
+            { required: true, message: '请输入年龄', trigger: 'blur' }
+            
           ]
         }  
       };
@@ -112,8 +120,8 @@ export default {
       },
 
       beforeAvatarUpload(file) {             /* 头像上传之前的判断 */
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isJPG = file.type === 'image/jpeg';                //限制图像格式
+        const isLt2M = file.size / 1024 / 1024 < 2;            //限制图像大小
 
         if (!isJPG) {
           this.$message.error('上传头像图片只能是 JPG 格式!');
@@ -123,7 +131,7 @@ export default {
         }
         return isJPG && isLt2M;
       },
-       submitForm(formName) {
+       submitForm(formName) {           //上传添加的表单
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');

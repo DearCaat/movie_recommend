@@ -60,6 +60,36 @@
       </template>
     </el-table-column>
   </el-table>
+ <el-button icon="el-icon-plus" style="float:right"  @click="dialogFormVisible = true" circle ></el-button>
+
+<el-dialog title="增加电影信息" :visible.sync="dialogFormVisible">
+  <el-form :model="submitform">
+    <el-form-item label="电影名称" :label-width="formLabelWidth">
+      <el-input v-model="submitform.Name" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="电影发布日期" :label-width="formLabelWidth">
+      <el-input v-model="submitform.Date" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="导演" :label-width="formLabelWidth">
+      <el-input v-model="submitform.Director" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="编剧" :label-width="formLabelWidth">
+      <el-input v-model="submitform.scriptwriter" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="类型" :label-width="formLabelWidth">
+      <el-input v-model="submitform.Type" autocomplete="off"></el-input>
+    </el-form-item>
+    <el-form-item label="国家" :label-width="formLabelWidth">
+      <el-input v-model="submitform.Country" autocomplete="off"></el-input>
+    </el-form-item>
+    
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">取 消</el-button>
+     <el-button type="primary" @click="submitForm('Form')" class="CreateUser">新 建</el-button>
+  </div>
+</el-dialog>
+
 
   </el-main>
 </el-container>
@@ -81,18 +111,41 @@ export default {
           scriptwriter: '更不知道',
           Type: '动漫',
           Country:'日本'
-        }]
+        }],
+        dialogFormVisible: false,
+        submitform: {
+          Name: '',
+          Date: '',
+          Director:'',
+         scriptwriter:'',
+          Type: '',
+          Country:''
+        },
+           formLabelWidth: '120px'
       };
     },
     
     methods: {
-      Logout()
+      Logout()//登出操作
       {
         window.location.href="/";
       },
-       deleteRow(index, rows) {
+       deleteRow(index, rows) {   //删除操作
         rows.splice(index, 1);
-      }
+      }, 
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+          alert('chenggong')
+
+
+
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
       }
  
 }
