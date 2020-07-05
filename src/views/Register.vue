@@ -108,10 +108,15 @@
     },
      methods: {
       submitForm(formName) {
+        var _this = this
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');
-            
+            _this.$axios
+              .post('http://47.94.167.33:8088/getAll',_this.ruleForm)
+              .then(function (response){
+                console.log(response)
+              }) 
 
           } else {
             console.log('error submit!!');
