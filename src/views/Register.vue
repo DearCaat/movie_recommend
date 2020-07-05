@@ -6,47 +6,50 @@
   <div slot="header" class="clearfix">
     注册
   </div>
-<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
-  <el-form-item label="用户名" prop="username">
-    <el-input v-model="ruleForm.username"></el-input>
-  </el-form-item>
-  <el-form-item label="密码" prop="password">
-    <el-input type="password" v-model="ruleForm.password"></el-input>
-  </el-form-item>
-  <el-form-item label="确认密码" prop="pwdconfirm">
-    <el-input type="password" v-model="ruleForm.pwdconfirm"></el-input>
-  </el-form-item>
-  <el-form-item label="性别" prop="sex">
-    <el-radio-group v-model="ruleForm.sex">
-      <el-radio label="Male">男</el-radio>
-      <el-radio label="Female">女</el-radio>
-    </el-radio-group>
-  </el-form-item>
-  <el-form-item label="年龄" prop="age">
-    <el-input type="text" v-model="ruleForm.age"></el-input>
-  </el-form-item>
-   <el-form-item label="是否管理员" prop="IsAdmin">
-    <el-radio-group v-model="ruleForm.IsAdmin">
-      <el-radio label="True">是</el-radio>
-      <el-radio label="False">否</el-radio>
-    </el-radio-group>
-  </el-form-item>
-    <el-form-item label="标签" prop="type">
-    <el-checkbox-group v-model="ruleForm.type">
-      <el-checkbox label="惊悚" name="type"></el-checkbox>
-      <el-checkbox label="悬疑" name="type"></el-checkbox>
-      <el-checkbox label="战争" name="type"></el-checkbox>
-      <el-checkbox label="恐怖" name="type"></el-checkbox>
-      <el-checkbox label="奇幻" name="type"></el-checkbox>
-      <el-checkbox label="喜剧" name="type"></el-checkbox>
-      <el-checkbox label="科幻" name="type"></el-checkbox>
-    </el-checkbox-group>
-  </el-form-item>
+  <div>
+    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" style="padding-right:50px;"> 
+      <el-form-item label="用户名" prop="username">
+        <el-input v-model="ruleForm.username"></el-input>
+      </el-form-item>
+      <el-form-item label="密码" prop="password">
+        <el-input type="password" v-model="ruleForm.password"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" prop="pwdconfirm">
+        <el-input type="password" v-model="ruleForm.pwdconfirm"></el-input>
+      </el-form-item>
+      <el-form-item label="性别" prop="sex">
+        <el-radio-group v-model="ruleForm.sex">
+          <el-radio label="Male">男</el-radio>
+          <el-radio label="Female">女</el-radio>
+        </el-radio-group>
+      </el-form-item>
+      <el-form-item label="年龄" prop="age">
+        <el-input type="text" v-model="ruleForm.age"></el-input>
+      </el-form-item>
+      <el-form-item label="是否管理员" prop="IsAdmin">
+        <el-radio-group v-model="ruleForm.IsAdmin">
+          <el-radio label="True">是</el-radio>
+          <el-radio label="False">否</el-radio>
+        </el-radio-group>
+      </el-form-item>
+        <el-form-item label="标签" prop="type">
+        <el-checkbox-group v-model="ruleForm.type">
+          <el-checkbox label="惊悚" name="type"></el-checkbox>
+          <el-checkbox label="悬疑" name="type"></el-checkbox>
+          <el-checkbox label="战争" name="type"></el-checkbox>
+          <el-checkbox label="恐怖" name="type"></el-checkbox>
+          <el-checkbox label="奇幻" name="type"></el-checkbox>
+          <el-checkbox label="喜剧" name="type"></el-checkbox>
+          <el-checkbox label="科幻" name="type"></el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
 
-  <el-form-item>
-    <el-button style="width:100%" type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-  </el-form-item>
-</el-form>
+      <el-form-item >
+        <el-button  style="width:100%" type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+      </el-form-item>
+    </el-form>
+  </div>
+
 <el-link type="primary" id="goregister" href="/">已经有有账号?去登录</el-link>
 </el-card>
 </div>
@@ -109,6 +112,14 @@
      methods: {
       submitForm(formName) {
         var _this = this
+        var data = {
+          name : "默认用户名",
+          sex : _this.ruleForm.sex,
+          age : _this.ruleForm.age,
+          account: _this.ruleForm.username,
+          password:_this.ruleForm.password,
+          type: _this.ruleForm.IsAdmin == "True"?"Admin":"Normal",
+        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
             console.log(_this.ruleForm)
@@ -132,6 +143,9 @@
   }
 </script>
 <style scoped>
+.el-form-item__content{
+  margin-left:0 !important;
+}
 .note::before{
  			content:"";
  			/*-webkit-filter: opacity(50%);  
@@ -154,7 +168,6 @@
   .text {
     font-size: 14px;
   }
-
 
   .box-card {
     width: 480px;
