@@ -64,9 +64,6 @@
 </template>
 
 
-
-
-
 <script>
 export default {
     name:"HomePage",
@@ -82,9 +79,9 @@ export default {
         RecommandList:[],      /*主页推荐列表存在这,电影名为Name*/
         RatingList:[],             /*主页评分排行榜,电影名为Name*/
 
-        imagebox:[{id:0,idView:''},
-        {id:1,idView:''},
-        {id:2,idView:''}
+        imagebox:[{id:0,idView:require('../assets/images/1.jpg')},
+        {id:1,idView:require('../assets/images/2.jpg')},
+        {id:2,idView:require('../assets/images/3.jpg')}
         //imagebox是assets下一个放图片的文件夹
         ],
         zmdHeight :700,

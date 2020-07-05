@@ -1,5 +1,5 @@
 <template>
-<div  class="note" style="note">
+<div>
 <el-container>
   <el-header>
   <el-menu :default-active="this.$route.path" router mode="horizontal">
@@ -8,7 +8,7 @@
     </el-menu-item>
 </el-menu>
   </el-header>
-  <el-main>Main</el-main>
+  <el-main>施工中！</el-main>
 </el-container>
 </div>
 </template>
@@ -39,24 +39,7 @@ export default {
 
 
 <style scoped>
-.note::before{
- 			content:"";
- 			/*-webkit-filter: opacity(50%);  
-    		filter: opacity(50%); */
-    		background-image:url("../assets/images/bkg.jpg");
-    		opacity:0.3;
- 			z-index:-1;
- 			background-size:100%, 100%;
- 			width:100%; 
- 			height:100%;
- 			position:absolute;
- 		}
- 		.note{
- 			position:fixed;
- 				width:100%; 
- 			height:100%;
 
- 		}
 .el-header {
     color: #333;
     text-align: center;

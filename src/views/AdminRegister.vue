@@ -4,7 +4,7 @@
 <div>
 <el-card class="box-card" body-style="background-color:	#F0FFF0;">
   <div slot="header" class="clearfix">
-    用户注册
+    管理员注册
   </div>
 <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
   <el-form-item label="用户名" prop="username">
@@ -14,37 +14,18 @@
     <el-input type="password" v-model="ruleForm.password"></el-input>
   </el-form-item>
   <el-form-item label="确认密码" prop="pwdconfirm">
-    <el-input type="passwordc" v-model="ruleForm.pwdconfirm"></el-input>
+    <el-input type="password" v-model="ruleForm.pwdconfirm"></el-input>
   </el-form-item>
-  <el-form-item label="性别" prop="sex">
-    <el-radio-group v-model="ruleForm.sex">
-      <el-radio label="男"></el-radio>
-      <el-radio label="女"></el-radio>
-    </el-radio-group>
-  </el-form-item>
-  <el-form-item label="年龄" prop="age">
-    <el-input type="text" v-model="ruleForm.age"></el-input>
-  </el-form-item>
+
   <!-- <el-form-item label="是否管理员" prop="IsAdmin">
     <el-radio-group v-model="ruleForm.IsAdmin">
       <el-radio label="是"></el-radio>
       <el-radio label="否"></el-radio>
     </el-radio-group>
   </el-form-item>-->
-    <el-form-item label="标签" prop="tag">
-    <el-checkbox-group v-model="ruleForm.tag">
-      <el-checkbox label="惊悚" name="type"></el-checkbox>
-      <el-checkbox label="悬疑" name="type"></el-checkbox>
-      <el-checkbox label="战争" name="type"></el-checkbox>
-      <el-checkbox label="恐怖" name="type"></el-checkbox>
-      <el-checkbox label="奇幻" name="type"></el-checkbox>
-      <el-checkbox label="喜剧" name="type"></el-checkbox>
-      <el-checkbox label="科幻" name="type"></el-checkbox>
-    </el-checkbox-group>
-  </el-form-item>
 
   <el-form-item>
-    <el-button style="width:100%" type="primary" @click="submitForm('ruleForm')" class="CreateUser">立即创建</el-button>
+    <el-button style="width:100%" type="primary" @click="submitForm('ruleForm')" class="CreateAdmin">立即创建</el-button>
   </el-form-item>
 </el-form>
 <el-link type="primary" id="goregister" href="/">已经有有账号?去登录</el-link>
@@ -56,16 +37,13 @@
 
 <script>
   export default {
-    name:"Register",
+    name:"AdminRegister",
     data() {
       return {
         ruleForm: {
           username: '',
           password: '',
-          pwdconfirm:'',
-          sex: '',
-          age:'',
-          tag:[]
+          pwdconfirm:''
         },
         rules:{
          username: [
@@ -88,15 +66,6 @@
             },
             trigger:'blur'
              }
-          ],
-          sex: [
-            { required: true, message: '请选择性别', trigger: 'change ' }
-          ],
-          age: [
-            { required: true, message: '请填写年龄', trigger: 'blur' }
-          ],
-           tag: [
-            { type: 'array', required: true, message: '请至少选择一个喜欢的电影类型', trigger: 'change' }
           ]
         }
 
@@ -108,8 +77,6 @@
           if (valid) {
             alert('submit!');
             
-
-
 
           } else {
             console.log('error submit!!');
