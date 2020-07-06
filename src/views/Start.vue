@@ -80,7 +80,7 @@
         });
       },
      cimsInputClick () {
-      window.location.href = '/Register'
+      this.$router.push({ name: 'Register'})
     }
     }
   }
