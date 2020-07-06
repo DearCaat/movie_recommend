@@ -65,11 +65,8 @@
                   _this.ruleForm.password = ""
                   alert("密码错误")
                 }else{
-                  console.log(response.data)
                   _this.$router.push({ name: 'HomePage', params: { uid: response.data }})
                 }
-                
-                console.log(response)
               }) 
 
 

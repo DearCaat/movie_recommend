@@ -37,6 +37,9 @@
 <script>
 export default {
     name:'NavBar',
+    props:[
+        'uid',
+    ],
     data(){
         return {
             navList:[

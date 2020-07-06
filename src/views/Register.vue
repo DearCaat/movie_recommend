@@ -30,8 +30,8 @@
   </el-form-item>
   <el-form-item label="是否管理员" prop="IsAdmin">
     <el-radio-group v-model="ruleForm.IsAdmin">
-      <el-radio label=True>是</el-radio>
-      <el-radio label=False>否</el-radio>
+      <el-radio :label=true>是</el-radio>
+      <el-radio :label=false>否</el-radio>
     </el-radio-group>
   </el-form-item>
     <el-form-item label="喜爱电影标签" prop="tag">
@@ -63,7 +63,7 @@
     data() {
       return {
         ruleForm: {
-          name:"默认用户名",
+          name:"",
           username: '',
           password: '',
           pwdconfirm:'',
@@ -112,23 +112,11 @@
       };
     },
      methods: {
-      listToString(list){
-        var list_str = ""
-        for(var i=0;i<list.length;i++){
-          if(i == list.length-1){
-            list_str = list_str + list[i].toString()
-          }else{
-            list_str = list_str + list[i].toString() + "/"
-          }
-          
-        }
-        return list_str
-      },
       submitForm(formName) {
         var _this = this
         var time = new Date()
         var data = {
-          name : _this.ruleForm.name,
+          name : _this.ruleForm.name == ""?"默认用户名":_this.ruleForm.name,
           sex : _this.ruleForm.sex,
           age : _this.ruleForm.age,
           account: _this.ruleForm.username,
@@ -137,6 +125,7 @@
           login_date: time.toLocaleDateString(),
           tag: _this.listToString(_this.ruleForm.tag)
         }
+        console.log(data)
         this.$refs[formName].validate((valid) => {
           if (valid) {
             _this.$axios
@@ -154,7 +143,7 @@
                 }
                 
                 console.log(response)
-              }) 
+              })
           } else {
             console.log('error submit!!');
             return false;
@@ -196,7 +185,7 @@
   }
 
   .box-card {
-    width: 480px;
+    width: 520px;
     opacity: 1;
     text-align: center;
     margin: 70px auto;

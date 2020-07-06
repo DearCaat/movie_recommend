@@ -8,12 +8,12 @@
     </el-menu-item>
 </el-menu>
   </el-header> -->
-  <NavBar></NavBar>
+  <NavBar :uid = uid></NavBar>
   <el-main>
      <el-col span="16" class="leftcol">
         <div class="demo-type">
     <el-avatar :size="120" src="https://empty" @error="errorHandler">      <!--用户头像显示-->
-      <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
+      <img :src="GLOBAL.baseURL+'images/'+ ruleForm.u_pic"/>
     </el-avatar>
   </div>
 <el-card class="box-card1">
@@ -22,7 +22,7 @@
   </div>
   
   <div  class="text item">
-    {{'用户名'+':   '+ ruleForm.username}}
+    {{'用户昵称'+':   '+ ruleForm.name}}
   </div>
   <div  class="text item">
     {{'性别'+':   '+ ruleForm.sex}}
@@ -31,7 +31,7 @@
     {{'年龄'+':   '+ ruleForm.age}}
   </div>
   <div  class="text item">
-    {{'个性签名'+':   '+ ruleForm.sign}}
+    {{'个性签名'+':   '+ ruleForm.description}}
   </div>
   <div  class="text item">
     {{'喜爱类型'+':   '+ ruleForm.tag}}
@@ -71,33 +71,47 @@ export default {
   name:"UserCenter",
   data() {
     return {
-      navList:[
-          {name:'/HomePage',navItem:'首页'},
-          {name:'/HomePage/UserCenter',navItem:'个人中心'},
-          {name:'/Recommand',navItem:'个性化推荐'},
-          {name:'/Comment',navItem:'电影评价'}
-      ],
+      uid:this.$route.params.uid,
       ruleForm: {
-        uid:-1,
         username: '亚索',
         sex: 'Male',
         age:'21',
         sign:'死亡如风，常伴吾身',
-        tag: ["悬疑","恐怖","喜剧"]
+        tag: ["悬疑","恐怖","喜剧"],
+        u_pic:""
       },
       MessageBoard:{
         description:''          //留言板
       }
     };
   },
-    methods: {
+  methods: {
     errorHandler() {     //图片加载错误fallback
       return true
     },
     changeInfo(){
       this.$router.push({ name: 'UserChangeInfo',params: { user: this.ruleForm }})
     },
-    
+  },
+  mounted(){
+    var _this = this
+    var data = new FormData()
+    data.append('uid',parseInt(_this.$route.params.uid))
+    console.log(data)
+    _this.$axios
+      .post(_this.GLOBAL.baseURL+'u_getById',data)
+      .then(function (response){ 
+        _this.ruleForm = response.data
+        console.log(response)
+        for(var attr in _this.ruleForm) {
+          if(!_this.ruleForm[attr]){
+            _this.ruleForm[attr] = ""
+          }
+          if(attr == "tag"){
+            _this.ruleForm[attr] = _this.strToList(_this.ruleForm[attr])
+          }
+        }
+      })
   }
  
 }

@@ -31,7 +31,7 @@
   </el-col>
    </el-header> -->
   
-   <NavBar></NavBar> 
+   <NavBar :uid = uid></NavBar> 
   <el-main>
     <el-carousel :interval="4000" type="card" height="370px">
       <el-carousel-item v-for="item in imagebox" :key="item.id">
@@ -74,7 +74,7 @@ export default {
     },
      data() {
       return {
-        uid:-1,
+        uid:this.$route.params.uid,
         RecommandList:[],      /*主页推荐列表存在这,电影名为Name*/
         RatingList:[],             /*主页评分排行榜,电影名为Name*/
 
@@ -106,6 +106,7 @@ export default {
     },
     mounted() {
       this.uid = this.$route.params.uid
+      console.log(this.uid)
       // 首次加载时,需要调用一次
       this.screenWidth =  window.innerWidth;
       this.setSize();
