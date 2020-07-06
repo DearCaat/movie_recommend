@@ -17,7 +17,6 @@
     <el-button style="width:100%;" type="primary" @click="submitForm('ruleForm')">登录</el-button>
   </el-form-item>
   <el-link type="primary" id="goregister" href="/Register" style="float:right">还没有账号?去注册</el-link>
-   <el-link type="primary" id="AdminRegister" href="/AdminRegister" style="float:left">注册管理员账号</el-link>
    <br>
 </el-form>
 </el-card>
