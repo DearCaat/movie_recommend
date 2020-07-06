@@ -10,6 +10,9 @@
   <el-form-item label="用户名" prop="username">
     <el-input v-model="ruleForm.username"></el-input>
   </el-form-item>
+  <el-form-item label="昵称" prop="name">
+    <el-input v-model="ruleForm.name"></el-input>
+  </el-form-item>
   <el-form-item label="密码" prop="password">
     <el-input type="password" v-model="ruleForm.password"></el-input>
   </el-form-item>
@@ -23,7 +26,7 @@
     </el-radio-group>
   </el-form-item>
   <el-form-item label="年龄" prop="age">
-    <el-input type="text" v-model="ruleForm.age"></el-input>
+    <el-input  v-model="ruleForm.age"></el-input>
   </el-form-item>
   <el-form-item label="是否管理员" prop="IsAdmin">
     <el-radio-group v-model="ruleForm.IsAdmin">
@@ -60,14 +63,19 @@
     data() {
       return {
         ruleForm: {
+          name:"默认用户名",
           username: '',
           password: '',
           pwdconfirm:'',
           sex: '',
           age:'',
-          tag:[]
+          tag:[],
+          IsAdmin:false,
         },
         rules:{
+         name:[
+           {message:'请输入昵称',trigger:'blur'}
+         ],
          username: [
             { required: true, message: '请输入用户名', trigger: 'blur' },
             { min: 1, max: 15, message: '用户名应在1-15个字符内', trigger: 'blur' }
@@ -93,7 +101,8 @@
             { required: true, message: '请选择性别', trigger: 'change ' }
           ],
           age: [
-            { required: true, message: '请填写年龄', trigger: 'blur' }
+            { required: true, message: '请填写年龄', trigger: 'blur' },
+            {type: 'number', message:'请输入数字',transform: (value) => Number(value)}
           ],
            tag: [
             { type: 'array', required: true, message: '请至少选择一个喜欢的电影类型', trigger: 'change' }
@@ -103,22 +112,49 @@
       };
     },
      methods: {
+      listToString(list){
+        var list_str = ""
+        for(var i=0;i<list.length;i++){
+          if(i == list.length-1){
+            list_str = list_str + list[i].toString()
+          }else{
+            list_str = list_str + list[i].toString() + "/"
+          }
+          
+        }
+        return list_str
+      },
       submitForm(formName) {
         var _this = this
         var time = new Date()
         var data = {
-          name : "默认用户名",
+          name : _this.ruleForm.name,
           sex : _this.ruleForm.sex,
           age : _this.ruleForm.age,
           account: _this.ruleForm.username,
           password:_this.ruleForm.password,
           type: _this.ruleForm.IsAdmin?"Admin":"Normal",
           login_date: time.toLocaleDateString(),
-          tag: _this.ruleForm.tag,
+          tag: _this.listToString(_this.ruleForm.tag)
         }
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            console.log(data)
+            _this.$axios
+              .post(_this.GLOBAL.baseURL+'register',data)
+              .then(function (response){
+                if(response.data == '该账号已注册过'){
+                 alert("账户已存在")
+                 _this.ruleForm.username = ""
+                }else if (response.data == '注册失败'){
+                  alert("网络错误")
+                }
+                else {
+                  console.log("success")
+                  _this.$router.push({ name: 'HomePage', params: { uid: response.data }})
+                }
+                
+                console.log(response)
+              }) 
           } else {
             console.log('error submit!!');
             return false;

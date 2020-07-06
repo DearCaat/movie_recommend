@@ -47,10 +47,30 @@
     },
     methods: {
       submitForm(formName) {
+        var _this = this
+        var data = {
+          account : _this.ruleForm.username,
+          password: _this.ruleForm.password
+        }
         this.$refs[formName].validate((valid) => {
           if (valid) {
-          alert('chenggong')
-
+            _this.$axios
+              .post(_this.GLOBAL.baseURL+'login',data)
+              .then(function (response){
+                if(response.data == 'null_user'){
+                  alert("用户不存在")
+                  _this.ruleForm.username = ""
+                  _this.ruleForm.password = ""
+                }else if(response.data == 'password_error'){
+                  _this.ruleForm.password = ""
+                  alert("密码错误")
+                }else{
+                  console.log(response.data)
+                  _this.$router.push({ name: 'HomePage', params: { uid: response.data }})
+                }
+                
+                console.log(response)
+              }) 
 
 
           } else {

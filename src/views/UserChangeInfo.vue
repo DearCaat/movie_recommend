@@ -104,7 +104,7 @@ export default {
             { required:false, min: 0, max: 50, message: '签名不得超过50个字符', trigger: 'blur' }
           ],
           age: [
-            { required: true, message: '请输入年龄', trigger: 'blur' }
+            {  message: '请输入年龄', trigger: 'blur' }
             
           ]
         }  
@@ -120,11 +120,11 @@ export default {
       },
 
       beforeAvatarUpload(file) {             /* 头像上传之前的判断 */
-        const isJPG = file.type === 'image/jpeg';                //限制图像格式
+        const isJPG = file.type === 'image';                //限制图像格式
         const isLt2M = file.size / 1024 / 1024 < 2;            //限制图像大小
 
         if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
+          this.$message.error('上传头像图片只能是普通图像格式!');
         }
         if (!isLt2M) {
           this.$message.error('上传头像图片大小不能超过 2MB!');
