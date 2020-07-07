@@ -45,7 +45,7 @@ export default {
             navList:[
                 {name:'/HomePage',navItem:'首页',p_name:'HomePage'},
                 {name:'/UserCenter',navItem:'个人中心',params:{uid:this.uid},p_name:'UserCenter'},
-                {name:'/Recommand',navItem:'个性化推荐',params:{uid:this.uid},p_name:'Recommand'},
+                {name:'/Recommand',navItem:'分类',params:{uid:this.uid},p_name:'Recommand'},
                 {name:'/Comment',navItem:'电影评价',p_name:'Comment'}
             ],
         }

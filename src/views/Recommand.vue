@@ -1,13 +1,14 @@
 <template>
 <div>
-<el-container>
-  <el-header>
+<el-container direction="vertical">
+  <!-- <el-header>
   <el-menu :default-active="this.$route.path" router mode="horizontal">
     <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
         {{ item.navItem }}
     </el-menu-item>
 </el-menu>
-  </el-header>
+  </el-header> -->
+  <NavBar></NavBar>
   <el-main>
     <el-row>
       <el-col :span="24">
@@ -106,31 +107,24 @@
 </div>
 </template>
 
-
-
-
-
 <script>
+import NavBar from '@/components/NavBar'
 export default {
     name:"Recommand",
-     data() {
-      return {
-        navList:[
-            {name:'/HomePage',navItem:'首页'},
-            {name:'/HomePage/UserCenter',navItem:'个人中心'},
-            {name:'/Recommand',navItem:'分类查询'},
-            {name:'/Comment',navItem:'电影评价'}
-        ],
-         tagradio:'全部类型',
-         countryradio:'全部地区',
-         dateradio:'全部年代',
-         sortradio:'近期热门',
-         movies:[],
-	
-      };
+    components:{
+      NavBar
     },
+    data() {
+    return {
+        tagradio:'全部类型',
+        countryradio:'全部地区',
+        dateradio:'全部年代',
+        sortradio:'近期热门',
+        movies:[],
+
+    };
+  },
     methods: {
-      
       }
  
 }
@@ -140,7 +134,7 @@ export default {
 <style scoped>
 
 .sortradiogroup{
-    margin:0 500px;
+    margin:0 auto;
 }
 .el-menu{
     padding:0 100px;

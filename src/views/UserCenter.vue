@@ -12,8 +12,7 @@
   <el-main>
      <el-col span="16" class="leftcol">
         <div class="demo-type">
-    <el-avatar :size="120" src="https://empty" @error="errorHandler">      <!--用户头像显示-->
-      <img :src="GLOBAL.baseURL+'images/'+ ruleForm.u_pic"/>
+    <el-avatar :size="120" :src="GLOBAL.baseURL+'images/'+ ruleForm.u_pic" @error="errorHandler">      <!--用户头像显示-->
     </el-avatar>
   </div>
 <el-card class="box-card1">
