@@ -14,17 +14,20 @@
       <el-col :span="24">
          
          <div style="margin-top: 20px" class="sortradiogroup"> 
+           <span>电影类型  </span>
       <el-radio-group v-model="tagradio" size="small">
          
         <el-radio-button v-for="(type,index) in movie_type" :key="index" :label=type @click="query()"></el-radio-button>
     </el-radio-group>
   </div>
   <div style="margin-top: 20px" class="sortradiogroup">
+           <span>电影地区  </span>
       <el-radio-group v-model="countryradio" size="small">
         <el-radio-button v-for="(country,index) in movie_country" :key="index" :label=country @click="query()" ></el-radio-button>
     </el-radio-group>
   </div>
    <div style="margin-top: 20px" class="sortradiogroup">
+           <span>电影年代  </span>
       <el-radio-group v-model="dateradio" size="small">
         <el-radio-button v-for="(year,index) in movie_year" :key="index" :label=year @click="query()"></el-radio-button>
     </el-radio-group>
@@ -32,7 +35,9 @@
   <div style="margin-top: 20px" class="sortradiogroup">
            
       <el-radio-group v-model="sortradio" size="small">
-        <el-radio-button v-for="(sort,index) in movie_sort" :key="index" :label=sort></el-radio-button>
+        <el-radio-button label="近期热门"></el-radio-button>
+        <el-radio-button label="评分最高"></el-radio-button>
+        <el-radio-button label="近期上映"></el-radio-button>
     </el-radio-group>
   </div>
       </el-col>
@@ -40,17 +45,13 @@
     </el-row>
   <el-row :gutter="10"> 
     <el-divider></el-divider>           
-    <el-col :span="4" v-for="(movie,index) in movies " :key="index" >
+    <el-col :span="4" v-for="o in 10  " :key="o" >
     <el-card :body-style="{padding: '0px'}" shadow="never" class="movie-card">
-      <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
-      
       <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-
       <div style="padding: 14px;">
-        <span>{{movie.name}}</span>
-        <span style="padding:10px;"> {{movie.score}}</span>
+        <span>电影名</span>
+        <span style="padding:10px;"> 评分</span>
       </div>
-      </router-link>
     </el-card>
     
   </el-col>
@@ -61,7 +62,7 @@
   style="text-align:center;"
   background
   layout="prev, pager, next"
-  :total="movies.length">
+  :total="1000">
 </el-pagination>
 </el-row>
   </el-main>
@@ -137,19 +138,6 @@ export default {
 </script>
 
 
-<style >
-.router-link-text{
-  color: rgb(96,98,102) !important;
-  text-decoration: none;
-}
-.el-radio-button__inner{
-  font-size: 14px !important;
-  border:none !important;
-
-}
-
-</style>
-
 <style scoped>
 .movie-card{
   max-width: 186px;
@@ -160,7 +148,7 @@ export default {
   margin-bottom: 1.5rem;
 }
 .warpper{
-  width:1300px;
+  width:1400px;
   margin: 0 auto;
 }
 
