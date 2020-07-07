@@ -40,13 +40,17 @@
     </el-row>
   <el-row :gutter="10"> 
     <el-divider></el-divider>           
-    <el-col :span="4" v-for="o in 10  " :key="o" >
+    <el-col :span="4" v-for="(movie,index) in movies " :key="index" >
     <el-card :body-style="{padding: '0px'}" shadow="never" class="movie-card">
+      <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
+      
       <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+
       <div style="padding: 14px;">
-        <span>电影名</span>
-        <span style="padding:10px;"> 评分</span>
+        <span>{{movie.name}}</span>
+        <span style="padding:10px;"> {{movie.score}}</span>
       </div>
+      </router-link>
     </el-card>
     
   </el-col>
@@ -57,7 +61,7 @@
   style="text-align:center;"
   background
   layout="prev, pager, next"
-  :total="1000">
+  :total="movies.length">
 </el-pagination>
 </el-row>
   </el-main>
@@ -133,6 +137,19 @@ export default {
 </script>
 
 
+<style >
+.router-link-text{
+  color: rgb(96,98,102) !important;
+  text-decoration: none;
+}
+.el-radio-button__inner{
+  font-size: 14px !important;
+  border:none !important;
+
+}
+
+</style>
+
 <style scoped>
 .movie-card{
   max-width: 186px;
@@ -143,7 +160,7 @@ export default {
   margin-bottom: 1.5rem;
 }
 .warpper{
-  width:1400px;
+  width:1300px;
   margin: 0 auto;
 }
 
