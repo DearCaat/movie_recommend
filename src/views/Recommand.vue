@@ -16,17 +16,17 @@
          <div style="margin-top: 20px" class="sortradiogroup"> 
       <el-radio-group v-model="tagradio" size="small">
          
-        <el-radio-button v-for="(type,index) in movie_type" :key="index" :label=type></el-radio-button>
+        <el-radio-button v-for="(type,index) in movie_type" :key="index" :label=type @click="query()"></el-radio-button>
     </el-radio-group>
   </div>
   <div style="margin-top: 20px" class="sortradiogroup">
       <el-radio-group v-model="countryradio" size="small">
-        <el-radio-button v-for="(country,index) in movie_country" :key="index" :label=country></el-radio-button>
+        <el-radio-button v-for="(country,index) in movie_country" :key="index" :label=country @click="query()" ></el-radio-button>
     </el-radio-group>
   </div>
    <div style="margin-top: 20px" class="sortradiogroup">
       <el-radio-group v-model="dateradio" size="small">
-        <el-radio-button v-for="(year,index) in movie_year" :key="index" :label=year></el-radio-button>
+        <el-radio-button v-for="(year,index) in movie_year" :key="index" :label=year @click="query()"></el-radio-button>
     </el-radio-group>
   </div>
   <div style="margin-top: 20px" class="sortradiogroup">
@@ -38,7 +38,7 @@
       </el-col>
       
     </el-row>
-  <el-row gutter="10"> 
+  <el-row :gutter="10"> 
     <el-divider></el-divider>           
     <el-col :span="4" v-for="(movie,index) in movies " :key="index" >
     <el-card :body-style="{padding: '0px'}" shadow="never" class="movie-card">
