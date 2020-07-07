@@ -2,7 +2,7 @@
 <div class="note" style="note">
 
 <div>
-<el-card class="box-card" body-style="background-color:	#F0FFF0;">
+<el-card class="box-card" shadow="never">
   <div slot="header" class="clearfix">
     用户注册
   </div>
@@ -47,7 +47,7 @@
   </el-form-item>
 
   <el-form-item>
-    <el-button style="width:100%" type="primary" @click="submitForm('ruleForm')" class="CreateUser">立即创建</el-button>
+    <el-button style="width:100%" type="success" @click="submitForm('ruleForm')" class="CreateUser">立即创建</el-button>
   </el-form-item>
 </el-form>
 <el-link type="primary" id="goregister" href="/">已经有有账号?去登录</el-link>
@@ -165,7 +165,7 @@
  			content:"";
  			/*-webkit-filter: opacity(50%);  
     		filter: opacity(50%); */
-    		background-image:url("../assets/images/bkg.jpg");
+    		background-color:rgb(248, 243, 200);
     		opacity:0.3;
  			z-index:-1;
  			background-size:100%, 100%;

@@ -40,8 +40,8 @@
     </el-carousel>>
     <el-row>
       <el-col :span="12" class="col1">
-        <el-card class="box-card1">
-        <div slot="header" class="clearfix1">
+        <el-card class="box-card1" shadow="never">
+        <div slot="header" class="clearfix1" style="font-size:150%;font-family:Microsoft YaHei;">
         <span>个性推荐</span>
         </div>
           <div v-for="(item,o) in RecommandList" :key="o" :index="item.Name" class="text item">  
@@ -50,7 +50,7 @@
         </el-card>
       </el-col>
       <el-col :span="12" class="col2">
-        <el-card class="box-card2">
+        <el-card class="box-card2" shadow="never" style="font-size:150%;font-family:Microsoft YaHei;">
         <div slot="header" class="clearfix2">
         <span>评分排行榜</span>
         </div>
@@ -177,8 +177,8 @@ export default {
   }
 
   .el-container /deep/ .box-card1  {
-    width: 480px;
-    margin: 200px auto;
+    width: 550px;
+    margin: 50px 300px;
   }
     .el-container /deep/ .clearfix2:before,
   .el-container /deep/ .clearfix2:after {
@@ -190,8 +190,8 @@ export default {
   }
 
   .el-container /deep/ .box-card2 {
-    width: 480px;
-    margin: 200px auto;
+    width: 550px;
+    margin: 50px 100px;
   }
 .el-col {
   height: 600px;

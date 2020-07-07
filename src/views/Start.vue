@@ -1,8 +1,13 @@
 <template>
 
 <div class="note" style="note">
-
-<el-card class="box-card" body-style="background-color:	#F0FFF0;">
+<div class="headicotxt">
+  <img src="../assets/images/番茄.png" />
+</div>
+<div class="headicotxt" style="font-size:150%;font-family:Microsoft YaHei;">
+  <span>辣番茄电影推荐系统</span>
+</div>
+<el-card class="box-card" shadow="never">
   <div slot="header" class="clearfix">
     登录
   </div>
@@ -14,9 +19,9 @@
     <el-input type="password" v-model="ruleForm.password"></el-input>
   </el-form-item> 
   <el-form-item>
-    <el-button style="width:100%;" type="primary" @click="submitForm('ruleForm')">登录</el-button>
+    <el-button style="width:100%;" type="success" @click="submitForm('ruleForm')">登录</el-button>
   </el-form-item>
-  <el-link type="primary" id="goregister" href="/Register" style="float:right">还没有账号?去注册</el-link>
+  <el-link type="primary" id="goregister" href="/Register" >还没有账号?去注册</el-link>
    <br>
 </el-form>
 </el-card>
@@ -86,7 +91,7 @@
  			content:"";
  			/*-webkit-filter: opacity(50%);  
     		filter: opacity(50%); */
-    		background-image:url("../assets/images/bkg.jpg");
+    		background-color:rgb(248, 246, 227);
     		opacity:0.3;
  			z-index:-1;
  			background-size:100%, 100%;
@@ -100,6 +105,9 @@
  			height:100%;
 
  		}
+     .headicotxt{
+       text-align: center;
+     }
 
   .text {
     font-size: 14px;
@@ -122,7 +130,7 @@
     width: 480px;
     opacity: 1;
     text-align: center;
-    margin: 70px auto;
+    margin: 50px auto;
   }
   .demo-ruleForm{
     text-align: center;
