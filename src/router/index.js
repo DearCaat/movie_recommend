@@ -8,7 +8,7 @@ import HomePage from '../views/HomePage.vue'
 import Comment from '../views/Comment.vue'
 import Recommand from '../views/Recommand.vue'
 import UserChangeInfo from '../views/UserChangeInfo.vue'
-
+import Search from '../views/Search.vue'
 Vue.use(VueRouter)
 
 const routes = [{
@@ -51,6 +51,11 @@ const routes = [{
         path: '/UserChangeInfo',
         name: 'UserChangeInfo',
         component: UserChangeInfo
+    },
+    {
+        path: '/Search',
+        name: 'Search',
+        component: Search
     }
 
 ]
