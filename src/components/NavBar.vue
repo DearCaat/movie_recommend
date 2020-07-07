@@ -1,8 +1,8 @@
 <template>
-    <el-header>
-        <el-row>
-            <el-col :span="12">                  
-                <el-menu :default-active="this.$route.path"  mode="horizontal">
+    <el-header class="nav-panel">
+        <el-row class="nav-warpper">
+            <el-col :span="12" >                  
+                <el-menu :default-active="this.$route.path"  mode="horizontal" style="background-color:rgb(240,243,245);">
                     <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name" @click="route(i)">   
                         {{ item.navItem }}
                     </el-menu-item>
@@ -60,6 +60,15 @@ export default {
 </script>
 
 <style scoped>
+.nav-panel{
+    background-color: rgb(240,243,245);
+    padding: 0 !important;
+}
+.nav-warpper{
+    background-color: rgb(240,243,245) !important;
+    width: 1200px;
+    margin: 0 auto;
+}
 .el-header {
     color: #333;
     text-align: center;

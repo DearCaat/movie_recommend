@@ -7,6 +7,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import axios from 'axios'
 import globalVariable from './assets/global_variable'
 import utility from './assets/utility'
+import './index.css'
 
 Vue.use(Element)
 Vue.use(utility)

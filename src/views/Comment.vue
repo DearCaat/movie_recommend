@@ -9,7 +9,7 @@
 </el-menu>
   </el-header> -->
   <NavBar></NavBar>
-    <el-main>
+    <el-main class="wrapper">
     <el-row gutter="10px">
       <el-col :span="16">
         <div class="movinfo">
@@ -151,6 +151,10 @@ export default {
   }
 
   .movinfo{
-    padding:0 20rem;
+    
+  }
+  .wrapper{
+    width:1040px;
+    margin: 0 auto;
   }
 </style>
