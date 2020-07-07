@@ -111,7 +111,7 @@ export default {
          movie_type:['全部类型','剧情','喜剧','动作','爱情','科幻','动画','悬疑','惊悚','恐怖','犯罪','同性','音乐','歌舞','传记','历史','战争','西部','奇幻','冒险','灾难','武侠','情色'],
          movie_country:['全部地区','中国大陆','美国','中国香港','日本','韩国','英国','法国','德国','意大利','西班牙','印度','泰国','俄罗斯','伊朗','加拿大','澳大利亚','爱尔兰','瑞典','巴西','丹麦'],
          movie_year:['全部年代','2019','2010年代','2000年代','90年代','80年代','70年代','60年代','更早'],
-         movie_year_list:[[],[2019,2019],[2010,2018],[2000,2009],[1990,1999],[1980,1989],[1970,1979],[1960,1969],[0,1959]],
+         movie_year_list:[[0,3000],[2019,2019],[2010,2018],[2000,2009],[1990,1999],[1980,1989],[1970,1979],[1960,1969],[0,1959]],
          movie_sort:['评分最高','近期上映'],
 	
       };
@@ -120,12 +120,16 @@ export default {
       query(){
         var data = new FormData()
         var _this = this
-        movie_year.find(function(elem){
-          return elem==_this.dateradio;
-        })
+        let y_index = movie_year.find(function(elem){return elem==_this.dateradio;})
         data.append('type',tagradio)
         data.append('country',countryradio)
-        data.append('min_year')
+        data.append('min_year',movie_year_list[y_index][0])
+        data.append('max_year',movie_year_list[y_index][1])
+        data.append('sort',sortradio=='评分最高'?'S':'D')
+        console.log(data.get('type')) 
+        console.log(data.get('country'))
+        console.log(data.get('min_year'))
+        console.log(data.get('type'))
       },
       }
  
