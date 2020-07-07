@@ -14,25 +14,25 @@
       <el-col :span="24">
          
          <div style="margin-top: 20px" class="sortradiogroup"> 
-      <el-radio-group v-model="tagradio" size="small">
+      <el-radio-group v-model="tagradio" size="small" @change="query()">
          
-        <el-radio-button v-for="(type,index) in movie_type" :key="index" :label=type @click="query()"></el-radio-button>
+        <el-radio-button v-for="(type,index) in movie_type" :key="index" :label=type @></el-radio-button>
     </el-radio-group>
   </div>
   <div style="margin-top: 20px" class="sortradiogroup">
-      <el-radio-group v-model="countryradio" size="small">
-        <el-radio-button v-for="(country,index) in movie_country" :key="index" :label=country @click="query()" ></el-radio-button>
+      <el-radio-group v-model="countryradio" size="small" @change="query()">
+        <el-radio-button v-for="(country,index) in movie_country" :key="index" :label=country  ></el-radio-button>
     </el-radio-group>
   </div>
    <div style="margin-top: 20px" class="sortradiogroup">
-      <el-radio-group v-model="dateradio" size="small">
-        <el-radio-button v-for="(year,index) in movie_year" :key="index" :label=year @click="query()"></el-radio-button>
+      <el-radio-group v-model="dateradio" size="small" @change="query()">
+        <el-radio-button v-for="(year,index) in movie_year" :key="index" :label=year ></el-radio-button>
     </el-radio-group>
   </div>
   <div style="margin-top: 20px" class="sortradiogroup">
            
-      <el-radio-group v-model="sortradio" size="small">
-        <el-radio-button v-for="(sort,index) in movie_sort" :key="index" :label=sort @click="query()"></el-radio-button>
+      <el-radio-group v-model="sortradio" size="small" @change="query()">
+        <el-radio-button v-for="(sort,index) in movie_sort" :key="index" :label=sort ></el-radio-button>
     </el-radio-group>
   </div>
       </el-col>
@@ -40,11 +40,11 @@
     </el-row>
   <el-row :gutter="10"> 
     <el-divider></el-divider>           
-    <el-col :span="4" v-for="(movie,index) in movies " :key="index" >
-    <el-card :body-style="{padding: '0px'}" shadow="never" class="movie-card">
+    <el-col :span="3" v-for="(movie,index) in movies " :key="index" >
+    <el-card :body-style="{padding: '0px'}" shadow="never" >
       <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
       
-      <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+      <img :src="movie.u_pic" class="image">
 
       <div style="padding: 14px;">
         <span>{{movie.name}}</span>
@@ -85,27 +85,32 @@ export default {
          movies:[{
            mid:0,
            name:'电影1',
-           score: 8.0
+           score: 8.0,
+           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
            },
            {
            mid:0,
            name:'电影1',
-           score: 8.0
+           score: 8.0,
+           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
            },
            {
            mid:0,
            name:'电影1',
-           score: 8.0
+           score: 8.0,
+           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
            },
            {
            mid:0,
            name:'电影1',
-           score: 8.0
+           score: 8.0,
+           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
            },
            {
            mid:0,
            name:'电影1',
-           score: 8.0
+           score: 8.0,
+           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
            },
          ],
          movie_type:['全部类型','剧情','喜剧','动作','爱情','科幻','动画','悬疑','惊悚','恐怖','犯罪','同性','音乐','歌舞','传记','历史','战争','西部','奇幻','冒险','灾难','武侠','情色'],
@@ -120,16 +125,17 @@ export default {
       query(){
         var data = new FormData()
         var _this = this
-        let y_index = movie_year.find(function(elem){return elem==_this.dateradio;})
-        data.append('type',tagradio)
-        data.append('country',countryradio)
-        data.append('min_year',movie_year_list[y_index][0])
-        data.append('max_year',movie_year_list[y_index][1])
-        data.append('sort',sortradio=='评分最高'?'S':'D')
-        console.log(data.get('type')) 
-        console.log(data.get('country'))
-        console.log(data.get('min_year'))
-        console.log(data.get('type'))
+        let y_index = _this.movie_year.findIndex(function(elem){return elem==_this.dateradio;})
+        data.append('type',_this.tagradio)
+        data.append('country',_this.countryradio)
+        data.append('min_year',_this.movie_year_list[y_index][0])
+        data.append('max_year',_this.movie_year_list[y_index][1])
+        data.append('sort',_this.sortradio=='评分最高'?'S':'D')
+        /* _this.$axios
+          .post(_this.GLOBAL.baseURL+'register',data)
+          .then(function (response){
+            console.log(response)  
+          }) */
       },
       }
  
@@ -186,8 +192,9 @@ export default {
   }
 
   .image {
-    width: 100%;
-    display: block;
+    max-width: 135px !important;
+    max-height: 202px !important;
+    overflow: hidden;
   }
 
   .clearfix:before,

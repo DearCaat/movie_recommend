@@ -13,31 +13,31 @@
     <el-row class="row1">
       <el-col :span="24">
      <el-select                       
-                v-model="value"
-                multiple
-                filterable
-                remote
-                reserve-keyword
-                placeholder="请输入关键词"
-                :remote-method="remoteMethod"
-                :loading="loading">              
-            </el-select>
+        v-model="value"
+        multiple
+        filterable
+        remote
+        reserve-keyword
+        placeholder="请输入关键词"
+        :remote-method="remoteMethod"
+        :loading="loading">              
+    </el-select>
                 <el-button type="primary" icon="el-icon-search">搜索</el-button>    
       </el-col>
     </el-row>
   <el-row gutter="10"> 
     <el-divider></el-divider>           
-    <el-col :span="24" v-for="o in 10  " :key="o" >
-    <el-card :body-style="{padding: '0px'}"  class="movie-card">
+    <el-col :span="24" v-for="(movie,index) in movies  " :key="index" >
+    <el-card :body-style="{padding: '0px'}"  shadow="none">
         
-    <el-col :span="4">
-      <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">  
+    <el-col :span="3">
+      <img :src="movie.u_pic" class="image">  
     </el-col>
     <el-row>
         <el-col :span="16">
          <div class="movinfo">
            <div  class="text item" style="padding: 0px;font-size:250%;font-family:SimHei;">
-             {{'电影名称'+':   '+ MovieInfoForm.Name}}
+             {{MovieInfoForm.Name}}
            </div>
                <div class="movdescription">
            <div class="text item">
@@ -87,11 +87,6 @@ export default {
     },
      data() {
       return {
-    navList:[
-          {name:'/HomePage',navItem:'首页'},
-          {name:'/UserCenter',navItem:'个人中心'},
-          {name:'/Recommand',navItem:'个性化推荐'}
-      ],
         MovieInfoForm: {
         Name: '1',
         Date: '1  ',
@@ -102,12 +97,39 @@ export default {
         Country:'1',
           description:'12313311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513'
         },
-        RecommandMovForm:{
-          Name: '32323131 1',
-          rate:'1'
-        },
-      rate: null,     //用户打的分
-      score:3.5,        //电影评分
+        movies:[{
+           mid:0,
+           name:'电影1',
+           score: 8.0,
+           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
+           },
+           {
+           mid:0,
+           name:'电影1',
+           score: 8.0,
+           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
+           },
+           {
+           mid:0,
+           name:'电影1',
+           score: 8.0,
+           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
+           },
+           {
+           mid:0,
+           name:'电影1',
+           score: 8.0,
+           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
+           },
+           {
+           mid:0,
+           name:'电影1',
+           score: 8.0,
+           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
+           },
+         ],
+        rate: null,     //用户打的分
+        score:3.5,        //电影评分
 	
       };
     },
@@ -160,8 +182,9 @@ export default {
   }
 
   .image {
-    width: 100%;
-    display: block;
+    max-width: 135px !important;
+    max-height: 202px !important;
+    overflow: hidden;
   }
 
   .clearfix:before,

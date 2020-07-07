@@ -2,7 +2,9 @@
     <el-header class="nav-panel">
         <el-row class="nav-warpper">
             <el-col :span="4">
-                <p class="nav-title">辣番茄电影</p>
+                <router-link :to="{path:'/HomePage',query:{uid:uid}}" class="router-link-text">
+                    <p class="nav-title">辣番茄电影</p>
+                </router-link>
             </el-col>
             <el-col :span="10" >                  
                 <el-menu :default-active="this.$route.path"  mode="horizontal" style="background-color:rgb(240,243,245);">
@@ -28,7 +30,7 @@
                 :value="item.value">
                 </el-option>
             </el-select>
-                <el-button type="primary" icon="el-icon-search">搜索</el-button>    
+                <el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>    
 <!--                 <el-button type="primary" icon="el-icon-user-solid" @click="ChangePersonalInfo()">修改个人信息</el-button>  -->
             </el-col>
             <el-col :span="2">
@@ -59,12 +61,24 @@ export default {
         route(index){
             this.$router.push({name:this.navList[index].p_name,params:this.navList[index].params})
         },
+        search(){
+            this.$router.push({name:'Search'})
+        }
         
     }
 }
 </script>
 
+<style >
+.el-menu-item{
+    font-size: 14px;
+}
+</style>
+
 <style scoped>
+.router-link-text{
+  text-decoration: none;
+}
 .nav-title{
     font-size:25px;
     color: rgb(34,119,170);
@@ -74,7 +88,7 @@ export default {
     overflow: hidden;
     width: 100%;
     height: 100%;
-    text-decoration: solid;
+    text-decoration-style: none !important;
 }
 .nav-panel{
     background-color: rgb(240,243,245);
@@ -94,7 +108,4 @@ export default {
     width: 100%;
 }
   
- 
-.el-menu{
-}
 </style>
