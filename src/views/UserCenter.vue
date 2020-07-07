@@ -10,7 +10,7 @@
   </el-header> -->
   <NavBar :uid = uid :isSearch=true></NavBar>
   <el-main>
-     <el-col span="24" class="leftcol">
+     <el-col :span="24" class="leftcol">
         <div class="demo-type">
     <el-avatar :size="120" :src="GLOBAL.baseURL+'images/'+ ruleForm.u_pic" @error="errorHandler">      <!--用户头像显示-->
     </el-avatar>
@@ -148,7 +148,7 @@ export default {
 
   .box-card1 {
     width: 480px;
-    margin:75px 325px;
+    margin:75px 625px;
   }
    .clearfix2:before,
   .clearfix2:after {

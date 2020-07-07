@@ -14,25 +14,67 @@
       <el-col :span="24">
          
          <div style="margin-top: 20px" class="sortradiogroup"> 
+           <span>电影类型  </span>
       <el-radio-group v-model="tagradio" size="small">
-         
-        <el-radio-button v-for="(type,index) in movie_type" :key="index" :label=type></el-radio-button>
+        <el-radio-button label="全部类型"></el-radio-button>
+      <el-radio-button label="动作"></el-radio-button>
+      <el-radio-button label="喜剧"></el-radio-button>
+      <el-radio-button label="爱情"></el-radio-button>
+      <el-radio-button label="科幻"></el-radio-button>
+      <el-radio-button label="动画"></el-radio-button>
+      <el-radio-button label="悬疑"></el-radio-button>
+      <el-radio-button label="惊悚"></el-radio-button>
+      <el-radio-button label="恐怖"></el-radio-button>
+      <el-radio-button label="犯罪"></el-radio-button>
+      <el-radio-button label="历史"></el-radio-button>
+      <el-radio-button label="战争"></el-radio-button>
+      <el-radio-button label="西部"></el-radio-button>
+       <el-radio-button label="其他"></el-radio-button>
     </el-radio-group>
   </div>
   <div style="margin-top: 20px" class="sortradiogroup">
+           <span>电影地区  </span>
       <el-radio-group v-model="countryradio" size="small">
-        <el-radio-button v-for="(country,index) in movie_country" :key="index" :label=country></el-radio-button>
+        <el-radio-button label="全部地区"></el-radio-button>
+      <el-radio-button label="中国大陆"></el-radio-button>
+      <el-radio-button label="中国香港"></el-radio-button>
+      <el-radio-button label="中国台湾"></el-radio-button>
+      <el-radio-button label="美国"></el-radio-button>
+      <el-radio-button label="日本"></el-radio-button>
+      <el-radio-button label="韩国"></el-radio-button>
+      <el-radio-button label="英国"></el-radio-button>
+      <el-radio-button label="意大利"></el-radio-button>
+      <el-radio-button label="印度"></el-radio-button>
+      <el-radio-button label="法国"></el-radio-button>
+      <el-radio-button label="德国"></el-radio-button>
+      <el-radio-button label="俄罗斯"></el-radio-button>
+      <el-radio-button label="西班牙"></el-radio-button>
+      <el-radio-button label="其他"></el-radio-button>
     </el-radio-group>
   </div>
    <div style="margin-top: 20px" class="sortradiogroup">
+           <span>电影年代  </span>
       <el-radio-group v-model="dateradio" size="small">
-        <el-radio-button v-for="(year,index) in movie_year" :key="index" :label=year></el-radio-button>
+        <el-radio-button label="全部年代"></el-radio-button>
+        <el-radio-button label="2020"></el-radio-button>
+      <el-radio-button label="2019"></el-radio-button>
+      <el-radio-button label="2018"></el-radio-button>
+      <el-radio-button label="2017"></el-radio-button>
+      <el-radio-button label="2010年代"></el-radio-button>
+      <el-radio-button label="2000年代"></el-radio-button>
+      <el-radio-button label="90年代"></el-radio-button>
+      <el-radio-button label="80年代"></el-radio-button>
+      <el-radio-button label="70年代"></el-radio-button>
+      <el-radio-button label="60年代"></el-radio-button>
+      <el-radio-button label="更早"></el-radio-button>
     </el-radio-group>
   </div>
   <div style="margin-top: 20px" class="sortradiogroup">
            
       <el-radio-group v-model="sortradio" size="small">
-        <el-radio-button v-for="(sort,index) in movie_sort" :key="index" :label=sort></el-radio-button>
+        <el-radio-button label="近期热门"></el-radio-button>
+        <el-radio-button label="评分最高"></el-radio-button>
+        <el-radio-button label="近期上映"></el-radio-button>
     </el-radio-group>
   </div>
       </el-col>
@@ -40,17 +82,13 @@
     </el-row>
   <el-row gutter="10"> 
     <el-divider></el-divider>           
-    <el-col :span="4" v-for="(movie,index) in movies " :key="index" >
+    <el-col :span="4" v-for="o in 10  " :key="o" >
     <el-card :body-style="{padding: '0px'}" shadow="never" class="movie-card">
-      <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
-      
       <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
-
       <div style="padding: 14px;">
-        <span>{{movie.name}}</span>
-        <span style="padding:10px;"> {{movie.score}}</span>
+        <span>电影名</span>
+        <span style="padding:10px;"> 评分</span>
       </div>
-      </router-link>
     </el-card>
     
   </el-col>
@@ -61,7 +99,7 @@
   style="text-align:center;"
   background
   layout="prev, pager, next"
-  :total="movies.length">
+  :total="1000">
 </el-pagination>
 </el-row>
   </el-main>
@@ -81,70 +119,18 @@ export default {
          tagradio:'全部类型',
          countryradio:'全部地区',
          dateradio:'全部年代',
-         sortradio:'评分最高',
-         movies:[{
-           mid:0,
-           name:'电影1',
-           score: 8.0
-           },
-           {
-           mid:0,
-           name:'电影1',
-           score: 8.0
-           },
-           {
-           mid:0,
-           name:'电影1',
-           score: 8.0
-           },
-           {
-           mid:0,
-           name:'电影1',
-           score: 8.0
-           },
-           {
-           mid:0,
-           name:'电影1',
-           score: 8.0
-           },
-         ],
-         movie_type:['全部类型','剧情','喜剧','动作','爱情','科幻','动画','悬疑','惊悚','恐怖','犯罪','同性','音乐','歌舞','传记','历史','战争','西部','奇幻','冒险','灾难','武侠','情色'],
-         movie_country:['全部地区','中国大陆','美国','中国香港','日本','韩国','英国','法国','德国','意大利','西班牙','印度','泰国','俄罗斯','伊朗','加拿大','澳大利亚','爱尔兰','瑞典','巴西','丹麦'],
-         movie_year:['全部年代','2019','2010年代','2000年代','90年代','80年代','70年代','60年代','更早'],
-         movie_year_list:[[],[2019,2019],[2010,2018],[2000,2009],[1990,1999],[1980,1989],[1970,1979],[1960,1969],[0,1959]],
-         movie_sort:['评分最高','近期上映'],
+         sortradio:'近期热门',
+         movies:[],
+         movie_type:['全部类型','动作','喜剧']
 	
       };
     },
     methods: {
-      query(){
-        var data = new FormData()
-        var _this = this
-        movie_year.find(function(elem){
-          return elem==_this.dateradio;
-        })
-        data.append('type',tagradio)
-        data.append('country',countryradio)
-        data.append('min_year')
-      },
       }
  
 }
 </script>
 
-
-<style >
-.router-link-text{
-  color: rgb(96,98,102) !important;
-  text-decoration: none;
-}
-.el-radio-button__inner{
-  font-size: 14px !important;
-  border:none !important;
-
-}
-
-</style>
 
 <style scoped>
 .movie-card{
@@ -156,7 +142,7 @@ export default {
   margin-bottom: 1.5rem;
 }
 .warpper{
-  width:1300px;
+  width:1400px;
   margin: 0 auto;
 }
 

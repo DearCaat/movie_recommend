@@ -70,12 +70,94 @@
            </div>
         </el-col>
     </el-row>
-<el-row><!--昨天写到了这里-->
-
+    <el-row><!--昨天写到了这里-->
+<el-divider></el-divider>
+<el-col :span="16">
+  <div class="movdescription">
+           <div  class="text item" style="font-size:150%;font-family:SimHei;">
+             {{'电影简介'}}
+           </div>
+           <div class="text item">
+              {{MovieInfoForm.description}}
+           </div>
+        </div>
+</el-col>
 </el-row>
-
-
-
+<el-row>
+  <el-divider></el-divider> 
+    <div  class="text item" style="font-size:150%;font-family:SimHei;">
+             {{'喜欢该电影的人也喜欢'}}
+    </div>
+      <el-col :span="5" v-for="o in 6  " :key="o" offset="1">
+    <el-card :body-style="{ padding: '0px' }">
+      <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+     <div  class="text item" style="padding:0 20px;">
+             {{'电影名:'+RecommandMovForm.Name}}
+      
+             {{'评分:'+RecommandMovForm.rate}}
+        </div>
+    </el-card>
+    <el-divider></el-divider> 
+  </el-col>
+</el-row>
+<el-row>                    <!--演员-->
+  <el-divider></el-divider> 
+ <div  class="text item" style="font-size:150%;font-family:SimHei;">
+             {{'电影演职人员'}}
+             
+    </div>
+     <el-col :span="5" v-for="o in 6  " :key="o" offset="1">
+    <el-card :body-style="{ padding: '0px' }">
+      <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+     <div  class="text item" style="padding:0 20px;">
+             {{'演员:'+MovieInfoForm.main_actor}}
+        </div>
+    </el-card>
+    <el-divider></el-divider> 
+  </el-col>
+</el-row>
+      <el-row>
+             <el-divider></el-divider>
+             <div  class="text item" style="font-size:150%;font-family:SimHei;">
+             {{'评论区'}}
+              </div>
+              <el-input
+                 type="textarea"
+                 :autosize="{ minRows: 2, maxRows: 4}"
+                 placeholder="请输入内容"
+                 v-model="userform.usercomment">
+              </el-input>
+              <div style="margin: 20px 0;"></div> 
+              <el-button type="primary">评论</el-button>
+              <div style="margin: 20px 0;"></div> 
+              <el-row gutter="10"> 
+    <el-divider></el-divider>           
+    <el-col :span="24" v-for="o in 10  " :key="o" >
+    <el-card :body-style="{padding: '0px'}"  class="movie-card">
+        
+    <el-col :span="4">
+        <el-avatar :size="60" :src="GLOBAL.baseURL+'images/'+ userform.u_pic" @error="errorHandler">      <!--用户头像显示-->
+    </el-avatar>
+    </el-col>
+    <el-row>
+        <el-col :span="16">
+          <div class="comment">
+           <div  class="text item" style="padding: 0px;font-size:100%;font-family:SimHei;">
+             {{userform.username}}
+           </div>
+               <div class="movdescription">
+           <div class="text item">
+              {{userform.usercomment}}
+           </div>
+        </div>
+        </div>
+        </el-col>
+    </el-row>
+    </el-card>
+    </el-col>
+		</el-row>      
+              
+      </el-row>
      </el-main>
 </el-container>
 </div>
@@ -90,11 +172,11 @@ export default {
   name:"Comment",
     data() {
     return {
-      navList:[
-          {name:'/HomePage',navItem:'首页'},
-          {name:'/UserCenter',navItem:'个人中心'},
-          {name:'/Recommand',navItem:'个性化推荐'}
-      ],
+        userform:{
+           u_pic:'',
+           username:'2131321321',
+           usercomment: '12313311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513'
+        },
         MovieInfoForm: {
         Name: '1',
         Date: '1  ',
@@ -102,15 +184,22 @@ export default {
         scriptwriter:'1',
         main_actor:[1],
         Type: '1',
-        Country:'1'
+        Country:'1',
+          description:'12313311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513'
+        },
+        RecommandMovForm:{
+          Name: '32323131 1',
+          rate:'1'
         },
       rate: null,     //用户打的分
       value:3.8,        //电影评分
-        currentDate: new Date()
+      
     };
   },
   methods: {
-      
+       errorHandler() {     //图片加载错误fallback
+      return true
+    }
       }
  
 }
@@ -150,8 +239,53 @@ export default {
   word-break: break-all;
   }
 
-  .movinfo{
-    
+  .leftcolumn{
+    text-align: center;
+}
+.row1{
+    text-align: center;
+}
+.movie-card{
+
+  max-height: 250px;
+   max-width: 1200px;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1.5rem;
+}
+.warpper{
+  width:1400px;
+  margin: 0 auto;
+}
+
+
+ .time {
+    font-size: 13px;
+    color: #999;
+  }
+  
+  .bottom {
+    margin-top: 13px;
+    line-height: 12px;
+  }
+
+  .button {
+    padding: 0;
+    float: right;
+  }
+
+  .clearfix:before,
+  .clearfix:after {
+      display: table;
+      content: "";
+  }
+  
+  .clearfix:after {
+      clear: both
+  }
+
+  img{
+      max-width: 200px;
   }
   .wrapper{
     width:1040px;
