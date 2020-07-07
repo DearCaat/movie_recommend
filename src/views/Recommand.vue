@@ -114,16 +114,21 @@ export default {
     components:{
       NavBar
     },
-    data() {
-    return {
-        tagradio:'全部类型',
-        countryradio:'全部地区',
-        dateradio:'全部年代',
-        sortradio:'近期热门',
-        movies:[],
-
-    };
-  },
+     data() {
+      return {
+        navList:[
+            {name:'/HomePage',navItem:'首页'},
+            {name:'/UserCenter',navItem:'个人中心'},
+            {name:'/Recommand',navItem:'分类查询'},
+        ],
+         tagradio:'全部类型',
+         countryradio:'全部地区',
+         dateradio:'全部年代',
+         sortradio:'近期热门',
+         movies:[],
+	
+      };
+    },
     methods: {
       }
  
@@ -134,7 +139,7 @@ export default {
 <style scoped>
 
 .sortradiogroup{
-    margin:0 auto;
+    margin:0 20px;
 }
 .el-menu{
     padding:0 100px;

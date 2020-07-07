@@ -10,17 +10,25 @@
   </el-header> -->
   <NavBar></NavBar>
     <el-main>
-    <el-row class="row1">
-      <el-col span="16" class="col1">
-        <div class="movieinfo">
-           <el-card class="box-card1">
-           <div slot="header" class="clearfix1">
-             <span>电影信息</span>
-           </div>
-        <div  class="text item" style="font-size:150%">
+    <el-row gutter="10px">
+      <el-col :span="16">
+        <div class="movinfo">
+           <div  class="text item" style="font-size:250%;font-family:SimHei;">
              {{'电影名称'+':   '+ MovieInfoForm.Name}}
+           </div>
         </div>
-        <div  class="text item">
+      </el-col>
+      <el-col>
+       <el-divider direction="vertical"></el-divider>
+      </el-col>
+      
+    </el-row>
+    <el-row class="movinfo">
+      <el-col :span="7">
+         <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
+      </el-col >
+      <el-col :span="6" style="font-family:SimSun">
+          <div  class="text item">
              {{'发布日期'+':   '+ MovieInfoForm.Date}}
         </div>
         <div  class="text item">
@@ -37,17 +45,14 @@
         </div>
         <div  class="text item">
              {{'国家'+':   '+ MovieInfoForm.Country}}
-        </div>
-            </el-card>
-        </div>
-        
-      </el-col>
-
-      <el-col span="8" class="col2">
-        <div class="block1">
+        </div>  
+        </el-col>
+        <el-divider direction="vertical"></el-divider>
+        <el-col :span="8">
+          <div class="block1">
           <span 
             class="demonstration1"
-            style="margin:50px 50px;font-size:150%;"
+            style="font-size:150%;"
             >电影评分</span>
        <el-rate
             v-model="value"
@@ -58,23 +63,17 @@
             score-template="{value}"
             >
         </el-rate>
-        </div>
-           <div class="block2">
+</div>
+<div class="block2">
                <span class="demonstration2">您的评价</span>
                <el-rate v-model="rate" class="yourrate" style="padding:10px;"></el-rate>
            </div>
-           
-      </el-col>
-    </el-row> 
-    <el-row class="row2">
-      <el-col span="16" class="col3">
-         
-      </el-col>
-      <el-col span="8" class="col4">
-        
-        
-      </el-col>
+        </el-col>
     </el-row>
+<el-row><!--昨天写到了这里-->
+
+</el-row>
+
 
 
      </el-main>
@@ -93,18 +92,17 @@ export default {
     return {
       navList:[
           {name:'/HomePage',navItem:'首页'},
-          {name:'/HomePage/UserCenter',navItem:'个人中心'},
-          {name:'/Recommand',navItem:'个性化推荐'},
-          {name:'/Comment',navItem:'电影评价'}
+          {name:'/UserCenter',navItem:'个人中心'},
+          {name:'/Recommand',navItem:'个性化推荐'}
       ],
         MovieInfoForm: {
-        Name: '',
-        Date: '',
-        Director:'',
-        scriptwriter:'',
-        main_actor:[],
-        Type: '',
-        Country:''
+        Name: '1',
+        Date: '1  ',
+        Director:'133115313123125321321131531215521315213215135211215315  ',
+        scriptwriter:'1',
+        main_actor:[1],
+        Type: '1',
+        Country:'1'
         },
       rate: null,     //用户打的分
       value:3.8,        //电影评分
@@ -121,26 +119,19 @@ export default {
 
 <style scoped>
 
-.el-header {
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-  }
   .block1{
     text-align: center;
-  margin:100px;
+
   }
 .block2{
   text-align: center;
-  margin:100px;
+
 }
 
 .el-menu{
     padding:0 100px;
 }
-.el-col{
-  height: 600px;
-}
+
 .col1{
   background-color: rgb(198, 199, 255);
 }
@@ -155,20 +146,11 @@ export default {
 }
   .item {
     margin-bottom: 18px;
+    
+  word-break: break-all;
   }
 
-  .clearfix1:before,
-  .clearfix1:after {
-    display: table;
-    content: "";
+  .movinfo{
+    padding:0 20rem;
   }
-  .clearfix1:after {
-    clear: both
-  }
-
-  .box-card1 {
-    width: 480px;
-    margin:100px 325px;
-  }
-  
 </style>

@@ -139,6 +139,9 @@ export default {
   height:100%;
 
 }
+.item{
+    word-break: break-all;
+}
   .el-carousel__item h3 {
       color: #475669;
       font-size: 14px;
@@ -194,10 +197,10 @@ export default {
   height: 600px;
 }
 .col1 {
-  background-color: teal;
+  background-color: #fff;
 }
 .col2 {
-  background-color: rgb(255, 166, 0);
+  background-color: #fff;
 }
   
 img{

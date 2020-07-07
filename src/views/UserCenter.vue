@@ -10,7 +10,7 @@
   </el-header> -->
   <NavBar :uid = uid></NavBar>
   <el-main>
-     <el-col span="16" class="leftcol">
+     <el-col span="24" class="leftcol">
         <div class="demo-type">
     <el-avatar :size="120" :src="GLOBAL.baseURL+'images/'+ ruleForm.u_pic" @error="errorHandler">      <!--用户头像显示-->
     </el-avatar>
@@ -40,7 +40,7 @@
 </el-card>
 
      </el-col>
-      <el-col span="8" class="rightcol">
+    <!--  <el-col span="8" class="rightcol">
         <el-card class="box-card2">
         <div slot="header" class="clearfix2">
         <span>留言板</span>
@@ -55,7 +55,7 @@
   </el-form-item>
 </el-form></div>
 </el-card>
-      </el-col>
+      </el-col>-->
   </el-main>
 </el-container>
 </div>
@@ -127,18 +127,14 @@ export default {
   height: 790px;
   overflow-y: hidden
 }
-.rightcol{
-  background-color: rgb(255, 166, 0);
-}
-.leftcol{
- background-color: teal;
-}
+
 .text {
     font-size: 14px;
   }
 
   .item {
     margin-bottom: 18px;
+      word-break: break-all;
   }
 
   .clearfix1:before,
@@ -152,7 +148,7 @@ export default {
 
   .box-card1 {
     width: 480px;
-    margin:150px 325px;
+    margin:75px 325px;
   }
    .clearfix2:before,
   .clearfix2:after {
