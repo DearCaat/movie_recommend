@@ -14,20 +14,17 @@
       <el-col :span="24">
          
          <div style="margin-top: 20px" class="sortradiogroup"> 
-           <span>电影类型  </span>
       <el-radio-group v-model="tagradio" size="small">
          
         <el-radio-button v-for="(type,index) in movie_type" :key="index" :label=type @click="query()"></el-radio-button>
     </el-radio-group>
   </div>
   <div style="margin-top: 20px" class="sortradiogroup">
-           <span>电影地区  </span>
       <el-radio-group v-model="countryradio" size="small">
         <el-radio-button v-for="(country,index) in movie_country" :key="index" :label=country @click="query()" ></el-radio-button>
     </el-radio-group>
   </div>
    <div style="margin-top: 20px" class="sortradiogroup">
-           <span>电影年代  </span>
       <el-radio-group v-model="dateradio" size="small">
         <el-radio-button v-for="(year,index) in movie_year" :key="index" :label=year @click="query()"></el-radio-button>
     </el-radio-group>
@@ -35,9 +32,7 @@
   <div style="margin-top: 20px" class="sortradiogroup">
            
       <el-radio-group v-model="sortradio" size="small">
-        <el-radio-button label="近期热门"></el-radio-button>
-        <el-radio-button label="评分最高"></el-radio-button>
-        <el-radio-button label="近期上映"></el-radio-button>
+        <el-radio-button v-for="(sort,index) in movie_sort" :key="index" :label=sort @click="query()"></el-radio-button>
     </el-radio-group>
   </div>
       </el-col>
