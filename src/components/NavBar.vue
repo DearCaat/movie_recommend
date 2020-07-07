@@ -11,7 +11,7 @@
                     </el-menu-item>
                 </el-menu>
             </el-col>
-            <el-col :span="10">
+            <el-col :span="8" v-if="isSearch">
                 <el-select                       
                 v-model="value"
                 multiple
@@ -30,6 +30,8 @@
             </el-select>
                 <el-button type="primary" icon="el-icon-search">搜索</el-button>    
 <!--                 <el-button type="primary" icon="el-icon-user-solid" @click="ChangePersonalInfo()">修改个人信息</el-button>  -->
+            </el-col>
+            <el-col :span="2">
                 <el-button type="primary" icon="el-icon-user-solid" @click="Logout()" class="LogoutAdmin">退出登录</el-button> 
             </el-col>
         </el-row>
@@ -42,6 +44,7 @@ export default {
     name:'NavBar',
     props:[
         'uid',
+        'isSearch',
     ],
     data(){
         return {

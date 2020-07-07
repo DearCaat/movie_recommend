@@ -8,7 +8,7 @@
     </el-menu-item>
 </el-menu>
   </el-header> -->
-  <NavBar :uid = uid></NavBar>
+  <NavBar :uid = uid :isSearch=true></NavBar>
   <el-main>
      <el-col span="24" class="leftcol">
         <div class="demo-type">

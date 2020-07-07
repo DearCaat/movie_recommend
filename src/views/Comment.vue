@@ -8,7 +8,7 @@
     </el-menu-item>
 </el-menu>
   </el-header> -->
-  <NavBar></NavBar>
+  <NavBar :isSearch=true></NavBar>
     <el-main class="wrapper">
     <el-row gutter="10px">
       <el-col :span="16">

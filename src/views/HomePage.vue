@@ -31,7 +31,7 @@
   </el-col>
    </el-header> -->
   
-   <NavBar :uid = uid></NavBar> 
+   <NavBar :uid = uid :isSearch=true></NavBar> 
   <el-main>
     <el-carousel :interval="4000" type="card" height="370px">
       <el-carousel-item v-for="item in imagebox" :key="item.id">

@@ -8,7 +8,7 @@
     </el-menu-item>
 </el-menu>
   </el-header> -->
-  <NavBar></NavBar>
+  <NavBar :isSearch=true></NavBar>
   <el-main>
     <div>
       <el-upload
