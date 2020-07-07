@@ -117,9 +117,8 @@ export default {
       return {
         navList:[
             {name:'/HomePage',navItem:'首页'},
-            {name:'/HomePage/UserCenter',navItem:'个人中心'},
+            {name:'/UserCenter',navItem:'个人中心'},
             {name:'/Recommand',navItem:'分类查询'},
-            {name:'/Comment',navItem:'电影评价'}
         ],
          tagradio:'全部类型',
          countryradio:'全部地区',
@@ -140,7 +139,7 @@ export default {
 <style scoped>
 
 .sortradiogroup{
-    margin:0 500px;
+    margin:0 20px;
 }
 .el-menu{
     padding:0 100px;

@@ -1,9 +1,9 @@
 <template>
-<el-container class="container">
-  <el-header>
-    <el-col :span="12">                  <!--导航栏-->
-  <el-menu :default-active="this.$route.path" router mode="horizontal">
-    <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">   
+<el-container  direction="vertical">
+<!--   <el-header>
+    <el-col :span="12">                 
+  <el-menu :default-active="this.$route.path"  mode="horizontal">
+    <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name" @click="route(i)">   
         {{ item.navItem }}
     </el-menu-item>
   </el-menu>
@@ -17,7 +17,7 @@
     reserve-keyword
     placeholder="请输入关键词"
     :remote-method="remoteMethod"
-    :loading="loading">               <!--搜素框-->
+    :loading="loading">               
     <el-option
       v-for="item in options"
       :key="item.value"
@@ -29,8 +29,9 @@
  <el-button type="primary" icon="el-icon-user-solid" @click="ChangePersonalInfo()">修改个人信息</el-button> 
  <el-button type="primary" icon="el-icon-user-solid" @click="Logout()" class="LogoutAdmin">退出登录</el-button> 
   </el-col>
-   </el-header>
-
+   </el-header> -->
+  
+   <NavBar></NavBar> 
   <el-main>
     <el-carousel :interval="4000" type="card" height="370px">
       <el-carousel-item v-for="item in imagebox" :key="item.id">
@@ -58,24 +59,22 @@
         </div>
         </el-card>
       </el-col>
-     </el-row>
+    </el-row>
 </el-main>
 </el-container>
 </template>
 
 
 <script>
+import NavBar from '@/components/NavBar'
 export default {
     name:"HomePage",
+    components:{
+      NavBar
+    },
      data() {
       return {
-        navList:[
-            {name:'/HomePage',navItem:'首页'},
-            {name:'/HomePage/UserCenter',navItem:'个人中心'},
-            {name:'/Recommand',navItem:'分类查询'},
-            {name:'/Comment',navItem:'电影评价'}
-        ],
-
+        uid:-1,
         RecommandList:[],      /*主页推荐列表存在这,电影名为Name*/
         RatingList:[],             /*主页评分排行榜,电影名为Name*/
 
@@ -91,65 +90,56 @@ export default {
       };
     },
     methods: {
-           setSize:function () {
-                // 通过浏览器宽度(图片宽度)计算高度
-                this.bannerHeight = 400 / 1920 * this.screenWidth;   //图片轮播自适应函数
-              },
-            ChangePersonalInfo()
-            {
-              window.location.href="/UserChangeInfo";
-            },
-             Logout()
-             {
-               window.location.href="/";
-             }
-            },
-          mounted() {
-            console.log(this.$route.params.uid)
-            // 首次加载时,需要调用一次
-            this.screenWidth =  window.innerWidth;
-            this.setSize();
-            // 窗口大小发生改变时,调用一次
-            window.onresize = () =>{
-            this.screenWidth =  window.innerWidth;
-            this.setSize();
-            }
-           
-
+      
+      setSize:function () {
+          // 通过浏览器宽度(图片宽度)计算高度
+          this.bannerHeight = 400 / 1920 * this.screenWidth;   //图片轮播自适应函数
+        },
+      ChangePersonalInfo()
+      {
+        window.location.href="/UserChangeInfo";
+      },
+        Logout()
+        {
+          window.location.href="/";
+        }
+    },
+    mounted() {
+      this.uid = this.$route.params.uid
+      // 首次加载时,需要调用一次
+      this.screenWidth =  window.innerWidth;
+      this.setSize();
+      // 窗口大小发生改变时,调用一次
+      window.onresize = () =>{
+      this.screenWidth =  window.innerWidth;
+      this.setSize();
       }
- 
+    },
 }
 </script>
 
 
 <style scoped>
 .note::before{
- 			content:"";
- 			/*-webkit-filter: opacity(50%);  
-    		filter: opacity(50%); */
-    		background-image:url("../assets/images/bkg.jpg");
-    		opacity:0.3;
- 			z-index:-1;
- 			background-size:100%, 100%;
- 			width:100%; 
- 			height:100%;
- 			position:absolute;
- 		}
- 		.note{
- 			position:fixed;
- 				width:100%; 
- 			height:100%;
+  content:"";
+  /*-webkit-filter: opacity(50%);  
+    filter: opacity(50%); */
+  background-image:url("../assets/images/bkg.jpg");
+  opacity:0.3;
+  z-index:-1;
+  background-size:100%, 100%;
+  width:100%; 
+  height:100%;
+  position:absolute;
+}
+.note{
+  position:fixed;
+    width:100%; 
+  height:100%;
 
- 		}
-.el-header {
-    color: #333;
-    text-align: center;
-    line-height: 60px;
-  }
-  
- 
-.el-menu{
-    padding:0 100px;
+}
+.item{
+    word-break: break-all;
 }
   .el-carousel__item h3 {
       color: #475669;
@@ -206,10 +196,10 @@ export default {
   height: 600px;
 }
 .col1 {
-  background-color: teal;
+  background-color: #fff;
 }
 .col2 {
-  background-color: rgb(255, 166, 0);
+  background-color: #fff;
 }
   
 img{

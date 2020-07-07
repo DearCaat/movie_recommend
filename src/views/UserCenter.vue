@@ -1,15 +1,16 @@
 <template>
 <div >
-<el-container>
-  <el-header>
+<el-container direction="vertical"> 
+  <!-- <el-header>
   <el-menu :default-active="this.$route.path" router mode="horizontal">
     <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
         {{ item.navItem }}
     </el-menu-item>
 </el-menu>
-  </el-header>
+  </el-header> -->
+  <NavBar></NavBar>
   <el-main>
-     <el-col span="16" class="leftcol">
+     <el-col span="24" class="leftcol">
         <div class="demo-type">
     <el-avatar :size="120" src="https://empty" @error="errorHandler">      <!--用户头像显示-->
       <img src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"/>
@@ -19,6 +20,7 @@
   <div slot="header" class="clearfix1">
     <span>个人信息</span>
   </div>
+  
   <div  class="text item">
     {{'用户名'+':   '+ ruleForm.username}}
   </div>
@@ -34,10 +36,12 @@
   <div  class="text item">
     {{'喜爱类型'+':   '+ ruleForm.tag}}
   </div>
+  <el-button @click="changeInfo()"> 修改个人信息
+  </el-button>
 </el-card>
 
      </el-col>
-      <el-col span="8" class="rightcol">
+    <!--  <el-col span="8" class="rightcol">
         <el-card class="box-card2">
         <div slot="header" class="clearfix2">
         <span>留言板</span>
@@ -52,40 +56,48 @@
   </el-form-item>
 </el-form></div>
 </el-card>
-      </el-col>
+      </el-col>-->
   </el-main>
 </el-container>
 </div>
 </template>
 
 <script>
+import NavBar from '@/components/NavBar'
 export default {
-    name:"UserCenter",
-     data() {
-      return {
-        navList:[
-            {name:'/HomePage',navItem:'首页'},
-            {name:'/HomePage/UserCenter',navItem:'个人中心'},
-            {name:'/Recommand',navItem:'分类查询'},
-            {name:'/Comment',navItem:'电影评价'}
-        ],
-        ruleForm: {
-            username: '亚索',
-            sex: '男',
-            age:'21',
-            sign:'死亡如风，常伴吾身',
-            tag: ["孤儿","托儿索","无E烦"]
-          },
-          MessageBoard:{
-            description:''          //留言板
-          }
-      };
-    },
-      methods: {
-      errorHandler() {     //图片加载错误fallback
-        return true
+  components:{
+    NavBar
+  },
+  name:"UserCenter",
+  data() {
+    return {
+      navList:[
+          {name:'/HomePage',navItem:'首页'},
+          {name:'/HomePage/UserCenter',navItem:'个人中心'},
+          {name:'/Recommand',navItem:'分类查询'},
+      ],
+      ruleForm: {
+        uid:-1,
+        username: '亚索',
+        sex: 'Male',
+        age:'21',
+        sign:'死亡如风，常伴吾身',
+        tag: ["悬疑","恐怖","喜剧"]
+      },
+      MessageBoard:{
+        description:''          //留言板
       }
-    }
+    };
+  },
+    methods: {
+    errorHandler() {     //图片加载错误fallback
+      return true
+    },
+    changeInfo(){
+      this.$router.push({ name: 'UserChangeInfo',params: { user: this.ruleForm }})
+    },
+    
+  }
  
 }
 </script>
@@ -101,18 +113,14 @@ export default {
   height: 790px;
   overflow-y: hidden
 }
-.rightcol{
-  background-color: rgb(255, 166, 0);
-}
-.leftcol{
- background-color: teal;
-}
+
 .text {
     font-size: 14px;
   }
 
   .item {
     margin-bottom: 18px;
+      word-break: break-all;
   }
 
   .clearfix1:before,
@@ -126,7 +134,7 @@ export default {
 
   .box-card1 {
     width: 480px;
-    margin:150px 325px;
+    margin:75px 325px;
   }
    .clearfix2:before,
   .clearfix2:after {
