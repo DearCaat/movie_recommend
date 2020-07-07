@@ -8,6 +8,7 @@ import HomePage from '../views/HomePage.vue'
 import Comment from '../views/Comment.vue'
 import Recommand from '../views/Recommand.vue'
 import UserChangeInfo from '../views/UserChangeInfo.vue'
+import AdminRegister from '../views/AdminRegister.vue'
 
 Vue.use(VueRouter)
 
