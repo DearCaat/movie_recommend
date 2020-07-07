@@ -1,14 +1,13 @@
 <template>
 <div >
-<el-container direction="vertical"> 
-  <!-- <el-header>
+<el-container>
+  <el-header>
   <el-menu :default-active="this.$route.path" router mode="horizontal">
     <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
         {{ item.navItem }}
     </el-menu-item>
 </el-menu>
-  </el-header> -->
-  <NavBar></NavBar>
+  </el-header>
   <el-main>
      <el-col span="16" class="leftcol">
         <div class="demo-type">
@@ -20,7 +19,6 @@
   <div slot="header" class="clearfix1">
     <span>个人信息</span>
   </div>
-  
   <div  class="text item">
     {{'用户名'+':   '+ ruleForm.username}}
   </div>
@@ -36,8 +34,6 @@
   <div  class="text item">
     {{'喜爱类型'+':   '+ ruleForm.tag}}
   </div>
-  <el-button @click="changeInfo()"> 修改个人信息
-  </el-button>
 </el-card>
 
      </el-col>
@@ -63,42 +59,33 @@
 </template>
 
 <script>
-import NavBar from '@/components/NavBar'
 export default {
-  components:{
-    NavBar
-  },
-  name:"UserCenter",
-  data() {
-    return {
-      navList:[
-          {name:'/HomePage',navItem:'首页'},
-          {name:'/HomePage/UserCenter',navItem:'个人中心'},
-          {name:'/Recommand',navItem:'个性化推荐'},
-          {name:'/Comment',navItem:'电影评价'}
-      ],
-      ruleForm: {
-        uid:-1,
-        username: '亚索',
-        sex: 'Male',
-        age:'21',
-        sign:'死亡如风，常伴吾身',
-        tag: ["悬疑","恐怖","喜剧"]
-      },
-      MessageBoard:{
-        description:''          //留言板
+    name:"UserCenter",
+     data() {
+      return {
+        navList:[
+            {name:'/HomePage',navItem:'首页'},
+            {name:'/HomePage/UserCenter',navItem:'个人中心'},
+            {name:'/Recommand',navItem:'分类查询'},
+            {name:'/Comment',navItem:'电影评价'}
+        ],
+        ruleForm: {
+            username: '亚索',
+            sex: '男',
+            age:'21',
+            sign:'死亡如风，常伴吾身',
+            tag: ["孤儿","托儿索","无E烦"]
+          },
+          MessageBoard:{
+            description:''          //留言板
+          }
+      };
+    },
+      methods: {
+      errorHandler() {     //图片加载错误fallback
+        return true
       }
-    };
-  },
-    methods: {
-    errorHandler() {     //图片加载错误fallback
-      return true
-    },
-    changeInfo(){
-      this.$router.push({ name: 'UserChangeInfo',params: { user: this.ruleForm }})
-    },
-    
-  }
+    }
  
 }
 </script>

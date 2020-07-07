@@ -34,7 +34,7 @@
       <el-radio label=False>否</el-radio>
     </el-radio-group>
   </el-form-item>
-    <el-form-item label="喜爱电影标签" prop="tag">
+    <el-form-item label="标签" prop="tag">
     <el-checkbox-group v-model="ruleForm.tag">
       <el-checkbox label="惊悚" name="type"></el-checkbox>
       <el-checkbox label="悬疑" name="type"></el-checkbox>

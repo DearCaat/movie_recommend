@@ -1,14 +1,13 @@
 <template>
 <div>
-<el-container direction="vertical">
-  <!-- <el-header>
+<el-container>
+  <el-header>
   <el-menu :default-active="this.$route.path" router mode="horizontal">
     <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name">
         {{ item.navItem }}        
     </el-menu-item>
 </el-menu>
-  </el-header> -->
-  <NavBar></NavBar>
+  </el-header>
     <el-main>
     <el-row class="row1">
       <el-col span="16" class="col1">
@@ -83,35 +82,31 @@
 </template>
 
 <script>
-import NavBar from '@/components/NavBar'
 export default {
-  components:{
-    NavBar
-  },
-  name:"Comment",
-    data() {
-    return {
-      navList:[
-          {name:'/HomePage',navItem:'首页'},
-          {name:'/HomePage/UserCenter',navItem:'个人中心'},
-          {name:'/Recommand',navItem:'个性化推荐'},
-          {name:'/Comment',navItem:'电影评价'}
-      ],
-        MovieInfoForm: {
-        Name: '',
-        Date: '',
-        Director:'',
-        scriptwriter:'',
-        main_actor:[],
-        Type: '',
-        Country:''
-        },
-      rate: null,     //用户打的分
-      value:3.8,        //电影评分
-        currentDate: new Date()
-    };
-  },
-  methods: {
+    name:"Comment",
+     data() {
+      return {
+        navList:[
+            {name:'/HomePage',navItem:'首页'},
+            {name:'/HomePage/UserCenter',navItem:'个人中心'},
+            {name:'/Recommand',navItem:'分类查询'},
+            {name:'/Comment',navItem:'电影评价'}
+        ],
+         MovieInfoForm: {
+          Name: '',
+          Date: '',
+          Director:'',
+          scriptwriter:'',
+          main_actor:[],
+          Type: '',
+          Country:''
+          },
+        rate: null,     //用户打的分
+        value:3.8,        //电影评分
+         currentDate: new Date()
+      };
+    },
+    methods: {
       
       }
  
