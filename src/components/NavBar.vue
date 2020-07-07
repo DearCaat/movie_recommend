@@ -1,14 +1,17 @@
 <template>
     <el-header class="nav-panel">
         <el-row class="nav-warpper">
-            <el-col :span="12" >                  
+            <el-col :span="4">
+                <p class="nav-title">辣番茄电影</p>
+            </el-col>
+            <el-col :span="10" >                  
                 <el-menu :default-active="this.$route.path"  mode="horizontal" style="background-color:rgb(240,243,245);">
                     <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name" @click="route(i)">   
                         {{ item.navItem }}
                     </el-menu-item>
                 </el-menu>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="10">
                 <el-select                       
                 v-model="value"
                 multiple
@@ -60,6 +63,17 @@ export default {
 </script>
 
 <style scoped>
+.nav-title{
+    font-size:25px;
+    color: rgb(34,119,170);
+    font-weight: 1000;
+    padding-bottom: 3rem;
+    margin: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    text-decoration: solid;
+}
 .nav-panel{
     background-color: rgb(240,243,245);
     padding: 0 !important;
@@ -70,14 +84,15 @@ export default {
     margin: 0 auto;
 }
 .el-header {
+    overflow: hidden;
     color: #333;
     text-align: center;
     line-height: 60px;
+    max-height: 60px;
     width: 100%;
 }
   
  
 .el-menu{
-    padding:0 100px;
 }
 </style>

@@ -9,7 +9,7 @@
 </el-menu>
   </el-header> -->
   <NavBar></NavBar>
-  <el-main>
+  <el-main class="warpper">
     <el-row>
       <el-col :span="24">
          
@@ -82,12 +82,12 @@
     </el-row>
   <el-row gutter="10"> 
     <el-divider></el-divider>           
-    <el-col :span="3" v-for="o in 10  " :key="o" offset="1">
-    <el-card :body-style="{ padding: '0px' }">
+    <el-col :span="4" v-for="o in 10  " :key="o" >
+    <el-card :body-style="{padding: '0px'}" shadow="never" class="movie-card">
       <img src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png" class="image">
       <div style="padding: 14px;">
         <span>电影名</span>
-        <span style="padding:50px;"> 评分</span>
+        <span style="padding:10px;"> 评分</span>
       </div>
     </el-card>
     
@@ -116,16 +116,12 @@ export default {
     },
      data() {
       return {
-        navList:[
-            {name:'/HomePage',navItem:'首页'},
-            {name:'/UserCenter',navItem:'个人中心'},
-            {name:'/Recommand',navItem:'分类查询'},
-        ],
          tagradio:'全部类型',
          countryradio:'全部地区',
          dateradio:'全部年代',
          sortradio:'近期热门',
          movies:[],
+         movie_type:['全部类型','动作','喜剧']
 	
       };
     },
@@ -137,6 +133,18 @@ export default {
 
 
 <style scoped>
+.movie-card{
+  max-width: 186px;
+  max-height: 250px;
+  border: none !important;
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1.5rem;
+}
+.warpper{
+  width:1400px;
+  margin: 0 auto;
+}
 
 .sortradiogroup{
     margin:0 20px;
