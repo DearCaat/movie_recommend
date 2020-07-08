@@ -161,7 +161,7 @@ export default {
               data:data,
             })
               .then(function (response){ 
-                console.log(response)
+                _this.$router.back(-1)
               })
           }
           
@@ -188,8 +188,6 @@ export default {
       this.ruleForm.password = ""
       this.ruleForm.pwdconfirm = ""
     }
-    
-    console.log(this.ruleForm)
   }
  
 }

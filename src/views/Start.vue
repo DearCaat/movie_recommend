@@ -2,7 +2,7 @@
 
 <div class="note" style="note">
 <div class="headicotxt">
-  <img src="../assets/images/番茄.png" />
+  <img src="" />
 </div>
 <div class="headicotxt" style="font-size:150%;font-family:Microsoft YaHei;">
   <span>辣番茄电影推荐系统</span>
@@ -70,6 +70,7 @@
                   alert("密码错误")
                 }else{
                   _this.$router.push({ name: 'HomePage', params: { uid: response.data }})
+                  _this.GLOBAL.uid = response.data
                 }
               }) 
 

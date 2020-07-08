@@ -74,7 +74,6 @@ export default {
     },
      data() {
       return {
-        uid:this.$route.params.uid,
         RecommandList:[],      /*主页推荐列表存在这,电影名为Name*/
         RatingList:[],             /*主页评分排行榜,电影名为Name*/
 
@@ -106,7 +105,7 @@ export default {
     },
     mounted() {
       this.uid = this.$route.params.uid
-      console.log(this.uid)
+      console.log(this.GLOBAL.uid)
       // 首次加载时,需要调用一次
       this.screenWidth =  window.innerWidth;
       this.setSize();

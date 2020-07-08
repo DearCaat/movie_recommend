@@ -5,7 +5,7 @@
         <el-row :gutter="10">
           <el-col :span="16">
             <div class="movinfo">
-              <div  class="text item" style="font-size:30px;">
+              <div  class="text item" style="font-size:30px; margin-bottom:1rem">
                 <span>
                   {{MovieInfoForm.name }}
                 </span>
@@ -21,7 +21,7 @@
         </el-row>
         <el-row class="movinfo">
           <el-col :span="4" >
-            <img :src="MovieInfoForm.u_pic" class="cover">
+            <img :src="MovieInfoForm.related_pic" class="cover">
           </el-col >
           <el-col :span="6" >
             <div class="text item">
@@ -37,7 +37,10 @@
                 主演:
               </span>
               <span>
-              {{MovieInfoForm.actors}}
+              {{actor_str}}
+              </span>
+              <span v-show="isActorTooLong">
+                ...
               </span>
             </div>
             <div class="text item">
@@ -53,7 +56,7 @@
                 制片国家/地区:
               </span>
               <span>
-              {{MovieInfoForm.type}}
+              {{MovieInfoForm.country}}
               </span>
             </div> 
             <div class="text item">
@@ -95,12 +98,12 @@
                   >
               </el-rate>
               <div style=" margin-top:-18px;margin-bottom:20px; color:rgb(155,155,155);font-size:12px">
-                {{MovieInfoForm.votes+"人评价"}}
+                {{MovieInfoForm.vote+"人评价"}}
               </div>
             </div>
             <div class="block2">
               <span class="demonstration2" style="color:rgb(155,155,155);">您的评价</span>
-              <el-rate v-model="rate" class="yourrate" style="padding:10px;"></el-rate>
+              <el-rate v-model="new_comment.score" class="yourrate" style="padding:10px;" @change="vote"></el-rate>
             </div>
           </el-col>
         </el-row>
@@ -125,8 +128,8 @@
             <el-col :span="4" v-for="(movie,index) in RecommandMovForm  " :key="index" >
               <el-card :body-style="{ padding: '0px' }" shadow="never">
                 <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
-                <img :src="movie.u_pic" class="image">
-                <div  class="text item" style="padding:0 50px;">
+                <img :src="movie.related_pic" class="image">
+                <div  class="text item" style="max-width:135px">
                   {{movie.name}}
                 </div>
                 </router-link>
@@ -159,14 +162,14 @@
               type="textarea"
               :autosize="{ minRows: 2, maxRows: 4}"
               placeholder="请输入内容"
-              v-model="userform.usercomment">
+              v-model="new_comment.text">
           </el-input>
           <div style="margin: 20px 0;"></div> 
-          <el-button type="primary">评论</el-button>
+          <el-button type="primary" @click="comment">评论</el-button>
           <div style="margin: 20px 0;"></div> 
           <el-row :gutter="10"> 
             <el-divider></el-divider>           
-            <el-col :span="24" v-for="(comment,index) in userform  " :key="index" >
+            <el-col :span="24" v-for="(comment,index) in comments  " :key="index" >
               <el-card :body-style="{padding: '0px'}" shadow="never" >
                 <el-row>
                 <el-col :span="3">
@@ -180,7 +183,7 @@
                       </div>
                       <div class="movdescription">
                         <div class="text item">
-                            {{comment.usercomment}}
+                            {{comment.text}}
                         </div>
                       </div>
                     </div>
@@ -203,136 +206,130 @@ export default {
   name:"Comment",
     data() {
     return {
-        userform:[
-          {
-           u_pic:'',
-           name:'用户1',
-           usercomment: '用户评论'
-          },
-          {
-           u_pic:'',
-           name:'用户1',
-           usercomment: '用户评论'
-          },
-          {
-           u_pic:'',
-           name:'用户1',
-           usercomment: '用户评论'
-          },
-        ],
-        MovieInfoForm: {
-          name: '1',
-          date: '2020/12/1',
-          u_pic:'https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp',
-          director:'Alen Bob',
-          during:120,
-          actors:"abcd/jdiwa/lklcz/dsad/dadwadw/cxzczcsada/aa",
-          type: '1',
-          country:'1',
-          description:'12313311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513311531312312532132113153121552131521321513521121531513',
-          tag:"剧情/爱情/喜剧",
-          score:"6.5",
-          votes:12423,
-        },
-        RecommandMovForm:[{
-          name: '杀手',
-          score:'2',
-          u_pic:'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2505143522.webp',
-          mid:1,
-          },
-         {
-          name: '杀手',
-          score:'2',
-          u_pic:'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2505143522.webp',
-          mid:1,
-          },
-          {
-          name: '杀手',
-          score:'2',
-          u_pic:'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2505143522.webp',
-          mid:1,
-         },
-         {
-          name: '杀手',
-          score:'2',
-          u_pic:'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2505143522.webp',
-          mid:1,
-         },
-         {
-          name: '杀手',
-          score:'2',
-          u_pic:'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2505143522.webp',
-          mid:1,
-         },
-         {
-          name: '杀手',
-          score:'2',
-          u_pic:'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2505143522.webp',
-          mid:1,
-         },
-         {
-          name: '杀手',
-          score:'2',
-          u_pic:'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2505143522.webp',
-          mid:1,
-         },
-         {
-          name: '杀手',
-          score:'2',
-          u_pic:'https://img3.doubanio.com/view/photo/s_ratio_poster/public/p2505143522.webp',
-          mid:1,
-         },
-        ],
-        actors:[
-          {
-            name:"dwakl",
-            p_url:"https://img9.doubanio.com/view/celebrity/s_ratio_celebrity/public/p8544.webp",
-            profession:"导演"
-          },
-          {
-            name:"dwakl",
-            p_url:"https://img9.doubanio.com/view/celebrity/s_ratio_celebrity/public/p8544.webp",
-            profession:"导演"
-          },
-          {
-            name:"dwakl",
-            p_url:"https://img9.doubanio.com/view/celebrity/s_ratio_celebrity/public/p8544.webp",
-            profession:"导演"
-          },
-          {
-            name:"dwakl",
-            p_url:"https://img9.doubanio.com/view/celebrity/s_ratio_celebrity/public/p8544.webp",
-            profession:"导演"
-          },
-          {
-            name:"dwakl",
-            p_url:"https://img9.doubanio.com/view/celebrity/s_ratio_celebrity/public/p8544.webp",
-            profession:"导演"
-          },
-          {
-            name:"dwakl",
-            p_url:"https://img9.doubanio.com/view/celebrity/s_ratio_celebrity/public/p8544.webp",
-            profession:"导演"
-          },
-          {
-            name:"dwakl",
-            p_url:"https://img9.doubanio.com/view/celebrity/s_ratio_celebrity/public/p8544.webp",
-            profession:"导演"
-          },
-        ],
-      rate: null,     //用户打的分
-      value:3.25,        //电影评分
-      
+      isActorTooLong:false,
+      actor_str:'',
+      new_comment:{
+        score:null,
+        text:""
+      },
+      comments:[
+      ],
+      MovieInfoForm: "",
+      RecommandMovForm:[
+      ],
+      actors:[
+      ],
+    value:3.25,        //电影评分
     };
   },
   methods: {
       errorHandler() {     //图片加载错误fallback
         return true
+      },
+      getMovieInfo(mid){
+        var _this = this
+        var data = new FormData()
+        data.append('mid',mid)
+        data.append('start',0)
+        data.append('length',20)
+        _this.$axios
+          .post(_this.GLOBAL.baseURL+'getMovieById',data)
+          .then(function (response){
+            _this.comments = response.data[response.data.length-1]
+            let current_user_index = _this.comments.findIndex(function(elem){return elem.uid==_this.GLOBAL.uid})
+            if(current_user_index != -1){
+              let current_comment = _this.comments.splice(current_user_index,1)
+              _this.comments.unshift(current_comment[0])
+              _this.new_comment.score = current_comment[0].score / 2
+              console.log(current_comment[0])
+            }
+            _this.MovieInfoForm = response.data[response.data.length-2]
+            _this.value = _this.MovieInfoForm.score / 2
+            if(_this.MovieInfoForm.actors.length > 35){
+              _this.actor_str = _this.MovieInfoForm.actors.slice(0,35)
+              _this.isActorTooLong = true
+            }
+            let actor_name_list = _this.strToList(_this.MovieInfoForm.actors)
+            for(var i =0;i<actor_name_list.length;i++){
+              if(i>5){
+                break
+              }
+              _this.actors.push({name:actor_name_list[i],
+              p_url:'https://img9.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1503970340.15.webp'})
+            }
+            if(response.data.length > 1){
+              _this.RecommandMovForm = response.data.slice(0,response.data.length-2)
+            }
+          })
+          /* let data_show_comment = new FormData()
+          data_show_comment.append('mid',mid)
+          data_show_comment.append('start',0)
+          data_show_comment.append('length',20)
+          _this.$axios
+          .post(_this.GLOBAL.baseURL+'showComment',data_show_comment)
+          .then(function (response){
+            if(response.data){
+              
+            }
+          }) */
+      },
+      vote(score){
+        var _this = this
+        var time = new Date()
+        var data = {
+          mid :this.mid,
+          uid:this.GLOBAL.uid,
+          date:time.toLocaleDateString(),
+          score:this.new_comment.score*2,
+          text:this.comments[0].text,
+        }
+        _this.$axios
+          .post(_this.GLOBAL.baseURL+'giveComment',data)
+          .then(function (response){
+            if(response.data){
+              alert("评分成功")
+            }
+          }) 
+        
+      },
+      comment(){
+        var _this = this
+        var time = new Date()
+        var data = {
+          mid :this.mid,
+          uid:this.GLOBAL.uid,
+          date:time.toLocaleDateString(),
+          score:this.comments[0].score*2,
+          text:this.new_comment.text,
+        }
+        _this.$axios
+          .post(_this.GLOBAL.baseURL+'giveComment',data)
+          .then(function (response){
+            console.log(response)
+            if(response.data){
+              data.u_pic = response.data.u_pic
+              data.name = response.data.name
+              let current_user_index = _this.comments.findIndex(function(elem){return elem.uid==_this.GLOBAL.uid})
+              if(current_user_index != -1){
+                _this.comments[current_user_index].text = data.text
+              }else{
+                _this.comments.unshift(data)
+              }
+              _this.new_comment.text = ""
+              alert("评论成功")
+            }
+          })
       }
   },
   mounted(){
-    console.log(this.$route.query.mid)
-  }
+    this.mid = this.$route.query.mid
+    this.getMovieInfo(this.mid)
+  },
+  watch: {
+    '$route' (to, from) {
+        this.$router.go(0);
+    }
+},
  
 }
 </script>
@@ -343,8 +340,9 @@ export default {
   margin-bottom: 1rem;
 }
 .image{
+  width: 100%;
   max-width: 135px !important;
-  max-height: 202px !important;
+  height: 202px !important;
   overflow: hidden;
 }
 .el-rate__text{
@@ -355,7 +353,6 @@ export default {
 .router-link-text{
   color: rgb(96,98,102) !important;
   text-decoration: none;
-  
 }
 .cover{
   max-width: 135px;

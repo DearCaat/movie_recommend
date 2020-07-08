@@ -10,14 +10,13 @@
   </el-header> -->
   <NavBar :uid = uid :isSearch=true></NavBar>
   <el-main class="wrapper">
-     <el-row gutter="10px">
+     <el-row :gutter="10">
        <el-col :span="2"></el-col>
-       <el-col :span="4">
-           <div class="avatar">
+       <el-col :span="4" style="vertical-align: middle;">
+           <div class="avatar" style="height:100%;">
               <img
-                src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                class="image"
-              />
+                :src="GLOBAL.baseURL+'images/'+ruleForm.u_pic"
+                class="image-avater"/>
            </div>
        </el-col>
       <el-col :span="1"><span></span></el-col>
@@ -27,7 +26,7 @@
                 class="text item"
                 style="font-size:250%;font-family:Microsoft YaHei;color:rgb(96,98,102)"
               >
-                {{ ruleForm.username }}
+                {{ ruleForm.name }}
               </div>
               <el-card class="box-card1" shadow="never">
                  <div slot="header" class="clearfix1">
@@ -59,13 +58,13 @@
           <div class="movinfo">
               <div
                 class="text item"
-                style="font-size:150%;font-family:Microsoft YaHei;color:rgb(96,98,102)"
+                style="font-size:24px;font-family:Microsoft YaHei;color:rgb(96,98,102);margin-bottom:1.5rem"
               >
                 {{'喜爱的电影' }}
               </div>
-              <el-col :span="4" v-for="o in 6" :key="o" offset="1" >
+              <el-col :span="4" v-for="o in 6" :key="o"  >
             <el-card :body-style="{ padding: '0px' }" shadow="never">
-              <router-link :to="{path:'/Comment'}" class="router-link-text">
+              <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
               <img
                 src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
                 class="image"
@@ -79,7 +78,7 @@
           </el-col>
           </div>
         </el-row>
-        <el-row>
+        <!-- <el-row>
             <el-divider></el-divider>
             <div
                 class="text item"
@@ -90,7 +89,7 @@
               <div  v-for="o in 5"  :key="o" class="text item">
            {{o+':   '+ history}}
         </div>
-        </el-row>
+        </el-row> -->
   </el-main>
 </el-container>
 </div>
@@ -132,8 +131,8 @@ export default {
   mounted(){
     var _this = this
     var data = new FormData()
-    data.append('uid',parseInt(_this.$route.params.uid))
-    console.log(data)
+    data.append('uid',parseInt(_this.GLOBAL.uid))
+    console.log(data.get('uid'))
     _this.$axios
       .post(_this.GLOBAL.baseURL+'u_getById',data)
       .then(function (response){ 
@@ -192,7 +191,8 @@ export default {
     content: "";
   }
   .clearfix1:after {
-    clear: both
+    clear: both;
+    
   }
 
   .box-card1 {
@@ -237,6 +237,12 @@ export default {
   margin-left: 1rem;
   margin-right: 1rem;
   margin-bottom: 1.5rem;
+}
+.image-avater{
+  width: 100%;
+  overflow: hidden;
+  max-height: 500px;
+  vertical-align: middle;
 }
 img{
 

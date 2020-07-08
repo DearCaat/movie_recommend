@@ -39,21 +39,20 @@
       
     </el-row>
   <el-row :gutter="10"> 
-    <el-divider></el-divider>           
-    <el-col :span="3" v-for="(movie,index) in movies " :key="index" >
-    <el-card :body-style="{padding: '0px'}" shadow="never" >
-      <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
-      
-      <img :src="movie.u_pic" class="image">
+    <el-divider></el-divider>       
+      <el-col :span="3" v-for="(movie,index) in movies " :key="index"  style="height:250px; max-height:250px; overflow:hidden;">
+        <el-card :body-style="{padding: '0px'}" shadow="never" >
+          <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
+          
+          <img :src="movie.related_pic" class="image">
 
-      <div style="padding: 14px;">
-        <span>{{movie.name}}</span>
-        <span style="padding:10px;"> {{movie.score}}</span>
-      </div>
-      </router-link>
-    </el-card>
-    
-  </el-col>
+          <div style="padding: 0px;" >
+            <span>{{movie.name}}</span>
+            <span style="padding:10px;"> {{movie.score}}</span>
+          </div>
+          </router-link>
+        </el-card>
+      </el-col>
 		</el-row>      
 <el-row>
    <el-divider></el-divider>       
@@ -61,7 +60,11 @@
   style="text-align:center;"
   background
   layout="prev, pager, next"
-  :total="movies.length">
+  :total="total_num"
+  :page-size="16"
+  @current-change="query_page"
+  :current-page.sync="current_page"
+  >
 </el-pagination>
 </el-row>
   </el-main>
@@ -78,45 +81,17 @@ export default {
     },
      data() {
       return {
+        total_num:10,
+        current_page:1,
          tagradio:'全部类型',
          countryradio:'全部地区',
          dateradio:'全部年代',
          sortradio:'评分最高',
-         movies:[{
-           mid:0,
-           name:'电影1',
-           score: 8.0,
-           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
-           },
-           {
-           mid:0,
-           name:'电影1',
-           score: 8.0,
-           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
-           },
-           {
-           mid:0,
-           name:'电影1',
-           score: 8.0,
-           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
-           },
-           {
-           mid:0,
-           name:'电影1',
-           score: 8.0,
-           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
-           },
-           {
-           mid:0,
-           name:'电影1',
-           score: 8.0,
-           u_pic:"https://img9.doubanio.com/view/photo/s_ratio_poster/public/p725839995.webp",
-           },
-         ],
+         movies:[],
          movie_type:['全部类型','剧情','喜剧','动作','爱情','科幻','动画','悬疑','惊悚','恐怖','犯罪','同性','音乐','歌舞','传记','历史','战争','西部','奇幻','冒险','灾难','武侠','情色'],
          movie_country:['全部地区','中国大陆','美国','中国香港','日本','韩国','英国','法国','德国','意大利','西班牙','印度','泰国','俄罗斯','伊朗','加拿大','澳大利亚','爱尔兰','瑞典','巴西','丹麦'],
          movie_year:['全部年代','2019','2010年代','2000年代','90年代','80年代','70年代','60年代','更早'],
-         movie_year_list:[[0,3000],[2019,2019],[2010,2018],[2000,2009],[1990,1999],[1980,1989],[1970,1979],[1960,1969],[0,1959]],
+         movie_year_list:[['1800/1/1','3000/12/31'],['2019/1/1','2019/12/31'],['2010/1/1','2018/12/31'],['2000/1/1','2009/12/31'],['1990/1/1','1999/12/31'],['1980/1/1','1989/12/31'],['1970/1/1','1979/12/31'],['1960/1/1','1969/12/31'],['1800/1/1','1959/12/31']],
          movie_sort:['评分最高','近期上映'],
 	
       };
@@ -126,17 +101,45 @@ export default {
         var data = new FormData()
         var _this = this
         let y_index = _this.movie_year.findIndex(function(elem){return elem==_this.dateradio;})
-        data.append('type',_this.tagradio)
-        data.append('country',_this.countryradio)
+        data.append('type',_this.tagradio == '全部类型'?'':_this.tagradio)
+        data.append('country',_this.countryradio == '全部地区'?'':_this.countryradio)
         data.append('min_year',_this.movie_year_list[y_index][0])
         data.append('max_year',_this.movie_year_list[y_index][1])
         data.append('sort',_this.sortradio=='评分最高'?'S':'D')
-        /* _this.$axios
-          .post(_this.GLOBAL.baseURL+'register',data)
+        data.append('needTotal','true')
+        data.append('start',0)
+        data.append('length',16)
+        _this.$axios
+          .post(_this.GLOBAL.baseURL+'queryMovie',data)
           .then(function (response){
-            console.log(response)  
-          }) */
+            let index = response.data.length-1 
+            _this.movies = response.data.slice(0,index)
+            _this.total_num = parseInt(response.data[index].slice(6))
+            _this.current_page = 1
+          }) 
       },
+      query_page(value){
+        var data = new FormData()
+        var _this = this
+        let y_index = _this.movie_year.findIndex(function(elem){return elem==_this.dateradio;})
+        data.append('type',_this.tagradio == '全部类型'?'':_this.tagradio)
+        data.append('country',_this.countryradio == '全部地区'?'':_this.countryradio)
+        data.append('min_year',_this.movie_year_list[y_index][0])
+        data.append('max_year',_this.movie_year_list[y_index][1])
+        data.append('sort',_this.sortradio=='评分最高'?'S':'D')
+        data.append('needTotal','false')
+        data.append('start',(value-1)*16)
+        data.append('length',16)
+        _this.$axios
+          .post(_this.GLOBAL.baseURL+'queryMovie',data)
+          .then(function (response){
+            let index = response.data.length
+            _this.movies = response.data.slice(0,index)
+          }) 
+      },
+      },
+      mounted(){
+        this.query()
       }
  
 }
@@ -147,11 +150,15 @@ export default {
 .router-link-text{
   color: rgb(96,98,102) !important;
   text-decoration: none;
+  padding:0 !important;
 }
 .el-radio-button__inner{
   font-size: 14px !important;
   border:none !important;
 
+}
+.el-card{
+  font-size:12px !important;
 }
 
 </style>
@@ -192,8 +199,9 @@ export default {
   }
 
   .image {
+    width: 100%;
     max-width: 135px !important;
-    max-height: 202px !important;
+    height: 202px !important;
     overflow: hidden;
   }
 
