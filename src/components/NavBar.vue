@@ -6,35 +6,27 @@
                     <p class="nav-title">辣番茄电影</p>
                 </router-link>
             </el-col>
-            <el-col :span="10" >                  
+            <el-col :span="6" >                  
                 <el-menu :default-active="this.$route.path"  mode="horizontal" style="background-color:rgb(240,243,245);">
                     <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name" @click="route(i)">   
                         {{ item.navItem }}
                     </el-menu-item>
                 </el-menu>
             </el-col>
-            <el-col :span="8" v-if="isSearch">
-                <el-select                       
-                v-model="value"
-                multiple
-                filterable
-                remote
-                reserve-keyword
-                placeholder="请输入关键词"
-                :remote-method="remoteMethod"
-                :loading="loading">              
-                <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value">
-                </el-option>
-            </el-select>
+            <el-col :span="12" v-if="isSearch" style="text-align:left">
+                <el-autocomplete
+                    v-model="search_value"
+                    :fetch-suggestions="search_option"
+                    :trigger-on-focus="false"
+                    placeholder="请输入内容"
+                    @select="search"
+                    ></el-autocomplete>
                 <el-button type="primary" icon="el-icon-search" @click="search()">搜索</el-button>    
-<!--                 <el-button type="primary" icon="el-icon-user-solid" @click="ChangePersonalInfo()">修改个人信息</el-button>  -->
+                <div style="margin-right:100px;width:0px">
+                </div>
             </el-col>
             <el-col :span="2">
-                <el-button type="primary" icon="el-icon-user-solid" @click="Logout()" class="LogoutAdmin">退出登录</el-button> 
+                <el-button type="primary" icon="el-icon-user-solid" @click="logout" class="LogoutAdmin">退出登录</el-button> 
             </el-col>
         </el-row>
         
@@ -50,20 +42,53 @@ export default {
     ],
     data(){
         return {
+            search_value:"",
+            loading:false,
             navList:[
                 {name:'/HomePage',navItem:'首页',p_name:'HomePage'},
                 {name:'/UserCenter',navItem:'个人中心',params:{uid:this.uid},p_name:'UserCenter'},
                 {name:'/Recommand',navItem:'分类',params:{uid:this.uid},p_name:'Recommand'},
             ],
+            movie_option:[],
         }
     },
     methods:{
+        logout(){
+            this.$cookieStore.delCookie( 'uid')
+            this.$router.push({name:'Start'})
+        },
         route(index){
             this.$router.push({name:this.navList[index].p_name,params:this.navList[index].params})
         },
         search(){
-            this.$router.push({name:'Search'})
-        }
+            this.$router.push({name:'Search',query:{searchValue:this.search_value}})
+        },
+        search_option(value, cb){
+        this.loading = true
+        var _this = this
+        let data = new FormData()
+        data.append('start',0)
+        data.append('length',6)
+        data.append('name',value)
+        data.append('needTotal','y')
+       _this.$axios
+          .post(_this.GLOBAL.baseURL+'SelectByName',data)
+          .then(function (response){
+            let movies_option
+            if(response.data.length>6){
+              movies_option= response.data.slice(0,6)
+            }else if(response.data.length==1){
+              movies_option=[]
+            }else{
+              movies_option= response.data.slice(0,response.data.length-1)
+            }
+             
+            for(let i=0;i<movies_option.length;i++){
+              movies_option[i].value = movies_option[i].name;
+            }
+            cb(movies_option)
+          })
+      },
         
     }
 }
@@ -76,6 +101,10 @@ export default {
 </style>
 
 <style scoped>
+.el-autocomplete{
+  width: 400px;
+}
+
 .router-link-text{
   text-decoration: none;
 }
@@ -96,7 +125,7 @@ export default {
 }
 .nav-warpper{
     background-color: rgb(240,243,245) !important;
-    width: 1200px;
+    width: 1400px;
     margin: 0 auto;
 }
 .el-header {

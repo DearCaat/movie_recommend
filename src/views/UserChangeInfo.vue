@@ -45,13 +45,14 @@
           </el-form-item>
           <el-form-item label="喜爱电影标签" prop="tag">
             <el-checkbox-group v-model="ruleForm.tag">
-              <el-checkbox label="惊悚" name="tag"></el-checkbox>
+              <el-checkbox v-for="(type,index) in types" :key="index" :label="type" name="tag"></el-checkbox> 
+              <!-- <el-checkbox label="惊悚" name="tag"></el-checkbox>
               <el-checkbox label="悬疑" name="tag"></el-checkbox>
               <el-checkbox label="战争" name="tag"></el-checkbox>
               <el-checkbox label="恐怖" name="tag"></el-checkbox>
               <el-checkbox label="奇幻" name="tag"></el-checkbox>
               <el-checkbox label="喜剧" name="tag"></el-checkbox>
-              <el-checkbox label="科幻" name="tag"></el-checkbox>
+              <el-checkbox label="科幻" name="tag"></el-checkbox> -->
             </el-checkbox-group>
           </el-form-item>
         
@@ -81,22 +82,9 @@ export default {
     return {
       user_pic:'',
       p_url:'',
-      navList:[
-          {name:'/HomePage',navItem:'首页'},
-          {name:'/HomePage/UserCenter',navItem:'个人中心'},
-          {name:'/Recommand',navItem:'个性化推荐'},
-          {name:'/Comment',navItem:'电影评价'}
-      ],
+      types:['剧情','喜剧','动作','爱情','科幻','动画','悬疑','惊悚','恐怖','犯罪','同性','音乐','歌舞','传记','历史','战争','西部','奇幻','冒险','灾难','武侠','情色'],
       ruleForm: {
-        uid:-1,
-        name: '',
-        password: '',
-        pwdconfirm:'',
-        sex: '',
-        age:'',
-        description:'',
-        tag: [],
-        u_pic:'',
+        tag:[]
       },
       rules: {
         name: [
@@ -152,7 +140,9 @@ export default {
             data:user_data,
           })
             .then(function (response){ 
-              console.log(response)
+              if(data.get('pic') == ""){
+                _this.$router.back(-1)
+              }
             })
           if(data.get('pic') != ""){
             _this.$axios({

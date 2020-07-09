@@ -16,7 +16,7 @@
          <div style="margin-top: 20px" class="sortradiogroup"> 
       <el-radio-group v-model="tagradio" size="small" @change="query()">
          
-        <el-radio-button v-for="(type,index) in movie_type" :key="index" :label=type @></el-radio-button>
+        <el-radio-button v-for="(type,index) in movie_type" :key="index" :label=type ></el-radio-button>
     </el-radio-group>
   </div>
   <div style="margin-top: 20px" class="sortradiogroup">
@@ -41,17 +41,19 @@
   <el-row :gutter="10"> 
     <el-divider></el-divider>       
       <el-col :span="3" v-for="(movie,index) in movies " :key="index"  style="height:250px; max-height:250px; overflow:hidden;">
-        <el-card :body-style="{padding: '0px'}" shadow="never" >
-          <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
-          
-          <img :src="movie.related_pic" class="image">
+        <div class="card-warrper">
+          <el-card :body-style="{padding: '0px'}" shadow="never" >
+            <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
+            
+            <img :src="movie.related_pic" class="image">
 
-          <div style="padding: 0px;" >
-            <span>{{movie.name}}</span>
-            <span style="padding:10px;"> {{movie.score}}</span>
-          </div>
-          </router-link>
-        </el-card>
+            <div style="padding: 0px;" >
+              <span>{{movie.name}}</span>
+              <span style="padding:10px;"> {{movie.score}}</span>
+            </div>
+            </router-link>
+          </el-card>
+        </div>
       </el-col>
 		</el-row>      
 <el-row>
@@ -161,9 +163,17 @@ export default {
   font-size:12px !important;
 }
 
+.card-warrper .el-card{
+  border: none !important;
+}
+
 </style>
 
 <style scoped>
+.card-warrper{
+  border: none;
+}
+
 .movie-card{
   max-width: 186px;
   max-height: 250px;

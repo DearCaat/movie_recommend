@@ -1,6 +1,6 @@
 <template>
-<div>
 <el-container>
+
   <el-header>
     <el-col :span="12">
       <div class="headAdmin"><h2>管理员界面</h2></div>
@@ -11,7 +11,6 @@
   </el-header>
   <el-main>
     <el-button @click="get_all_movie()">管理电影</el-button>
-    <el-button>管理用户</el-button>
 <el-table
     :data="tableData"
     style="width: 100%"
@@ -35,7 +34,7 @@
     <el-table-column
       prop="actors"
       label="演员"
-      width="120">
+      width="360">
     </el-table-column>
     <el-table-column
       prop="type"
@@ -68,6 +67,18 @@
     </el-table-column>
   </el-table>
  <el-button icon="el-icon-plus" style="float:right"  @click="dialogFormVisible = true" circle ></el-button>
+
+ <el-pagination
+ :show="total_num"
+  style="text-align:center;"
+  background
+  layout="prev, pager, next"
+  :total="total_num"
+  :page-size="10"
+  @current-change="get_all_movie('no_need')"
+  :current-page.sync="current_page"
+  >
+</el-pagination>
 
 <el-dialog title="增加电影信息" :visible.sync="dialogFormVisible">
   <el-form :model="submitform" ref="Form">
@@ -140,44 +151,41 @@
 
   </el-main>
 </el-container>
-</div>
 </template>
 
 
 
 <script>
+import NavBar from '@/components/NavBar'
 export default {
     name:"AdminCenter",
-    
+    components:{
+      NavBar
+    },
      data() {
       return {
-       tableData: [],
+        current_page:null,
+        total_num:null,
+        tableData: [],
         dialogFormVisible: false,
         EditDialogVisible:false,
         submitform: {
-          name: '名称1',
-          date: '2020-01-1',
-          director:'导演1',
-          actors:'演员1',
-          type: '剧情',
-          country:'中国',
-          language:"汉语",
-          during:"120",
         },
            formLabelWidth: '120px'
       };
     },
     
     methods: {
+      Logout(){
+        this.$cookieStore.delCookie( 'uid')
+        this.$router.push({name: 'Start'} )
+
+      },
       EditInfo(index){
         var _this = this
         console.log(_this.tableData[index])
         _this.submitform = _this.tableData[index]
         _this.EditDialogVisible = true
-      },
-      Logout()//登出操作
-      {
-        window.location.href="/";
       },
        deleteRow(index, rows) {   //删除操作
        if(confirm("是否删除该电影")){
@@ -190,6 +198,7 @@ export default {
           .then(function (response){
             if(response.data == 1){
               rows.splice(index, 1);
+              alert("删除成功")
             }
           })
        }
@@ -205,6 +214,8 @@ export default {
                 console.log(response)
                 if(response.data == 1){
                   _this.EditDialogVisible = false
+                  _this.submitform = {}
+                  alert("修改成功")
                 }
               })
           } else {
@@ -234,6 +245,8 @@ export default {
                 if(response.data == 1){
                   _this.tableData.push(_this.submitform)
                   _this.dialogFormVisible = false
+                  _this.submitform = {}
+                  alert("添加成功")
                 }
               }) 
           } else {
@@ -242,12 +255,29 @@ export default {
           }
         });
       },
-      get_all_movie(){
+      get_all_movie(need_str){
         var _this = this
+        let data = new FormData()
+        if(need_str!='no_need'){
+          data.append('needTotal','true')
+          data.append('start',0)
+        }else{
+          data.append('needTotal','false')
+          data.append('start',(_this.current_page-1)*10)
+        }
+        
+        data.append('length',10)
         _this.$axios
-          .get(_this.GLOBAL.baseURL+'M_FindAllMovies')
+          .post(_this.GLOBAL.baseURL+'M_FindAllMovies',data)
           .then(function (response){
-            _this.tableData = response.data
+            if(typeof(response.data[response.data.length-1]) == "number"){
+              _this.tableData = response.data.slice(0,response.data.length-1)
+              _this.total_num = response.data[response.data.length-1]
+            }else{
+              _this.tableData = response.data
+            }
+            
+            
           }) 
       },
       }

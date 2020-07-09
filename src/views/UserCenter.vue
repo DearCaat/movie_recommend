@@ -8,51 +8,48 @@
     </el-menu-item>
 </el-menu>
   </el-header> -->
-  <NavBar :uid = uid :isSearch=true></NavBar>
+  <NavBar :uid = GLOBAL.uid :isSearch=true></NavBar>
   <el-main class="wrapper">
-     <el-row :gutter="10">
-       <el-col :span="2"></el-col>
-       <el-col :span="4" style="vertical-align: middle;">
-           <div class="avatar" style="height:100%;">
-              <img
-                :src="GLOBAL.baseURL+'images/'+ruleForm.u_pic"
-                class="image-avater"/>
-           </div>
-       </el-col>
-      <el-col :span="1"><span></span></el-col>
-          <el-col :span="16">
-            <div class="movinfo">
-              <div
-                class="text item"
-                style="font-size:250%;font-family:Microsoft YaHei;color:rgb(96,98,102)"
-              >
-                {{ ruleForm.name }}
-              </div>
-              <el-card class="box-card1" shadow="never">
-                 <div slot="header" class="clearfix1">
-                    <span>个人信息</span>
-                 </div>
-                 <div  class="text item">
-                    {{'用户昵称'+':   '+ ruleForm.name}}
-                 </div>
-                 <div  class="text item">
-                    {{'性别'+':   '+ ruleForm.sex}}
-                 </div>
-                 <div  class="text item">
-                    {{'年龄'+':   '+ ruleForm.age}}
-                 </div>
-                 <div  class="text item">
-                    {{'个性签名'+':   '+ ruleForm.description}}
-                 </div>
-                 <div  class="text item">
-                    {{'喜爱类型'+':   '+ ruleForm.tag}}
-                 </div>
-                 <el-button @click="changeInfo()"> 修改个人信息
-                 </el-button>
-               </el-card>
-              </div>
-          </el-col>
-        </el-row>
+    <el-card style="margin:0 auto;width:500px;">
+      <el-row :gutter="10" >
+        <el-col :span="8" style="vertical-align: middle;">
+            <div class="avatter" >
+                <img
+                  :src="GLOBAL.baseURL+'images/'+ruleForm.u_pic"
+                  class="image-avater"/>
+            </div>
+        </el-col>
+        <el-col :span="8" :offset="1">
+          <div class="movinfo">
+            <div
+              class="text item"
+              style="font-size:250%;font-family:Microsoft YaHei;color:rgb(96,98,102)"
+            >
+              {{ ruleForm.name }}
+            </div>
+                <div slot="header" class="clearfix1">
+                </div>
+                <div  class="text item">
+                  {{'用户昵称'+':   '+ ruleForm.name}}
+                </div>
+                <div  class="text item">
+                  {{'性别'+':   '+ ruleForm.sex}}
+                </div>
+                <div  class="text item">
+                  {{'年龄'+':   '+ ruleForm.age}}
+                </div>
+                <div  class="text item">
+                  {{'个性签名'+':   '+ ruleForm.description}}
+                </div>
+                <div  class="text item">
+                  {{'喜爱类型'+':   '+ ruleForm.tag}}
+                </div>
+                <el-button @click="changeInfo()" class="user-info-btn"> 修改个人信息
+                </el-button>
+            </div>
+        </el-col>
+      </el-row>
+    </el-card>
         <el-row>
           <el-divider></el-divider>
           <div class="movinfo">
@@ -60,21 +57,22 @@
                 class="text item"
                 style="font-size:24px;font-family:Microsoft YaHei;color:rgb(96,98,102);margin-bottom:1.5rem"
               >
-                {{'喜爱的电影' }}
+                {{'喜爱过的电影' }}
               </div>
-              <el-col :span="4" v-for="o in 6" :key="o"  >
-            <el-card :body-style="{ padding: '0px' }" shadow="never">
-              <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
-              <img
-                src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-                class="image"
-              />
-              <div class="text item" style="padding:0 20px;">
-                {{ "电影:" + movieform.moviename }}
-              </div>
-              </router-link>
-            </el-card>
-            <el-divider></el-divider>
+              <el-col :span="4" v-for="(movie,index) in history" :key="index"  >
+                <div class="card-warrper">
+                  <el-card :body-style="{ padding: '0px' }" shadow="never">
+                    <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
+                    <img
+                      :src="movie.related_pic"
+                      class="image"
+                    />
+                    <div class="text item" style="padding:0 20px;">
+                      {{movie.name }}
+                    </div>
+                    </router-link>
+                  </el-card>
+                </div>
           </el-col>
           </div>
         </el-row>
@@ -104,20 +102,15 @@ export default {
   name:"UserCenter",
   data() {
     return {
-      uid:this.$route.params.uid,
       ruleForm: {
-        username: '亚索',
-        sex: 'Male',
-        age:'21',
-        sign:'死亡如风，常伴吾身',
-        tag: ["悬疑","恐怖","喜剧"],
-        u_pic:"",
       },
       movieform:{         //电影
       moviename:[]
       },
  
-      history:[]       //浏览历史
+      history:[
+      ],       //浏览历史
+
     };
   },
   methods: {
@@ -131,12 +124,12 @@ export default {
   mounted(){
     var _this = this
     var data = new FormData()
-    data.append('uid',parseInt(_this.GLOBAL.uid))
-    console.log(data.get('uid'))
+    data.append('uid',parseInt(_this.$cookieStore.getCookie( 'uid')))
     _this.$axios
       .post(_this.GLOBAL.baseURL+'u_getById',data)
       .then(function (response){ 
-        _this.ruleForm = response.data
+        _this.ruleForm = response.data[response.data.length-1]
+        _this.history = response.data.slice(0,response.data.length-1)
         console.log(response)
         for(var attr in _this.ruleForm) {
           if(!_this.ruleForm[attr]){
@@ -152,8 +145,20 @@ export default {
 }
 </script>
 
+<style >
+</style>
 
 <style scoped>
+.user-info-btn{
+  margin-top:1.5rem;
+}
+
+.card-warrper{
+  border:none !important;
+  margin-bottom: 0.5rem;
+  padding-bottom: 1.5rem;
+  max-height: 228px !important;
+}
 .router-link-text{
   color: rgb(96,98,102) !important;
   text-decoration: none;
@@ -164,8 +169,9 @@ export default {
 
 }
 
-.avatear{
-  padding:10px;
+.avatter{
+  max-height: 350px;
+  overflow: hidden;
 }
  
 .el-menu{
@@ -240,13 +246,10 @@ export default {
 }
 .image-avater{
   width: 100%;
-  overflow: hidden;
-  max-height: 500px;
-  vertical-align: middle;
 }
-img{
+/* img{
 
       width:100%;
       height:inherit;
-    }
+    } */
 </style>

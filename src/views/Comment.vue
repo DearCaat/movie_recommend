@@ -126,14 +126,16 @@
                     {{'喜欢该电影的人也喜欢'}}
             </div>
             <el-col :span="4" v-for="(movie,index) in RecommandMovForm  " :key="index" >
-              <el-card :body-style="{ padding: '0px' }" shadow="never">
-                <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
-                <img :src="movie.related_pic" class="image">
-                <div  class="text item" style="max-width:135px">
-                  {{movie.name}}
-                </div>
-                </router-link>
-              </el-card>
+              <div class="card-warrper">
+                <el-card :body-style="{ padding: '0px' }" shadow="never">
+                  <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
+                  <img :src="movie.related_pic" class="image">
+                  <div  class="text item" style="max-width:135px">
+                    {{movie.name}}
+                  </div>
+                  </router-link>
+                </el-card>
+              </div>
           </el-col>
         </el-row>
         <el-row>                   
@@ -145,12 +147,17 @@
             </span>
           </div>
           <el-col :span="4" v-for="(actor,index) in actors.slice(0,6)  " :key="index" >
-            <el-card :body-style="{ padding: '0px' }" shadow="never">
-              <img :src="actor.p_url" class="image">
-              <div  class="text item" style="padding:0 50px;">
-                {{actor.name}}
-              </div>
-            </el-card>
+            <div class="card-warrper">
+              <el-card :body-style="{ padding: '0px' }" shadow="never">
+                <img :src="actor.a_pic" class="image">
+                <div  class="text item" style="text-align: center; padding-right:20px">
+                  {{actor.a_name}}
+                </div>
+                <div  class="text item" style=" text-align: center; color:rgb(150,150,150);padding-right:20px">
+                  {{actor.profession}}
+                </div>
+              </el-card>
+            </div>
           </el-col>
         </el-row>
         <el-row>
@@ -170,26 +177,30 @@
           <el-row :gutter="10"> 
             <el-divider></el-divider>           
             <el-col :span="24" v-for="(comment,index) in comments  " :key="index" >
-              <el-card :body-style="{padding: '0px'}" shadow="never" >
-                <el-row>
-                <el-col :span="3">
-                  <el-avatar :size="80" :src="GLOBAL.baseURL+'images/'+ comment.u_pic" @error="errorHandler">      <!--用户头像显示-->
-                  </el-avatar>
-                </el-col>
-                  <el-col :span="16">
-                    <div class="comment">
-                      <div  class="text item" style="padding: 0px;font-size:100%; margin-bottom:0.8rem">
-                        {{comment.name}}
-                      </div>
-                      <div class="movdescription">
-                        <div class="text item">
-                            {{comment.text}}
-                        </div>
-                      </div>
+              <div class="comment-card-warrper">
+                <el-card :body-style="{padding: '0px'}" shadow="never" >
+                  <el-row>
+                  <el-col :span="3">
+                    <div class="comment-img-warrper">
+                    <div :style="'background-image:url('+GLOBAL.baseURL+'images/'+ comment.u_pic+')'" class="comment-img"></div>
+                      <!-- <img :src="GLOBAL.baseURL+'images/'+ comment.u_pic" class="comment-img"> -->
                     </div>
                   </el-col>
-                </el-row>
-              </el-card>
+                    <el-col :span="16">
+                      <div class="comment">
+                        <div  class="text item" style="padding: 0px;font-size:100%; margin-bottom:0.8rem">
+                          {{comment.name}}
+                        </div>
+                        <div class="movdescription">
+                          <div class="text item">
+                              {{comment.text}}
+                          </div>
+                        </div>
+                      </div>
+                    </el-col>
+                  </el-row>
+                </el-card>
+              </div>
             </el-col>
           </el-row>      
         </el-row>
@@ -231,57 +242,57 @@ export default {
         var data = new FormData()
         data.append('mid',mid)
         data.append('start',0)
-        data.append('length',20)
+        data.append('length',10)
         _this.$axios
           .post(_this.GLOBAL.baseURL+'getMovieById',data)
           .then(function (response){
-            _this.comments = response.data[response.data.length-1]
-            let current_user_index = _this.comments.findIndex(function(elem){return elem.uid==_this.GLOBAL.uid})
+            _this.comments = response.data[response.data.length-2]
+            _this.actors = response.data[response.data.length-1].slice(0,6)
+            for(let m =0;m<_this.actors.length;m++){
+              if(m==0){
+                _this.actors[m].profession = "导演"
+              }else{
+                _this.actors[m].profession = "演员"
+              }
+              
+            }
+            let current_user_index = _this.comments.findIndex(function(elem){return elem.uid==_this.$cookieStore.getCookie( 'uid')})
             if(current_user_index != -1){
               let current_comment = _this.comments.splice(current_user_index,1)
               _this.comments.unshift(current_comment[0])
               _this.new_comment.score = current_comment[0].score / 2
               console.log(current_comment[0])
             }
-            _this.MovieInfoForm = response.data[response.data.length-2]
+            _this.MovieInfoForm = response.data[response.data.length-3]
             _this.value = _this.MovieInfoForm.score / 2
             if(_this.MovieInfoForm.actors.length > 35){
               _this.actor_str = _this.MovieInfoForm.actors.slice(0,35)
               _this.isActorTooLong = true
+            }else{
+              _this.actor_str = _this.MovieInfoForm.actors.slice(0)
             }
             let actor_name_list = _this.strToList(_this.MovieInfoForm.actors)
-            for(var i =0;i<actor_name_list.length;i++){
+            /* for(var i =0;i<actor_name_list.length;i++){
               if(i>5){
                 break
               }
               _this.actors.push({name:actor_name_list[i],
-              p_url:'https://img9.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1503970340.15.webp'})
-            }
+              a_pic:'https://img9.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1503970340.15.webp'})
+            } */
             if(response.data.length > 1){
-              _this.RecommandMovForm = response.data.slice(0,response.data.length-2)
+              _this.RecommandMovForm = response.data.slice(0,response.data.length-7)
             }
           })
-          /* let data_show_comment = new FormData()
-          data_show_comment.append('mid',mid)
-          data_show_comment.append('start',0)
-          data_show_comment.append('length',20)
-          _this.$axios
-          .post(_this.GLOBAL.baseURL+'showComment',data_show_comment)
-          .then(function (response){
-            if(response.data){
-              
-            }
-          }) */
       },
       vote(score){
         var _this = this
         var time = new Date()
         var data = {
           mid :this.mid,
-          uid:this.GLOBAL.uid,
+          uid:this.$cookieStore.getCookie( 'uid'),
           date:time.toLocaleDateString(),
           score:this.new_comment.score*2,
-          text:this.comments[0].text,
+          text:typeof(this.comments[0]) == "undefined"?"":this.comments[0].text,
         }
         _this.$axios
           .post(_this.GLOBAL.baseURL+'giveComment',data)
@@ -297,9 +308,9 @@ export default {
         var time = new Date()
         var data = {
           mid :this.mid,
-          uid:this.GLOBAL.uid,
+          uid:this.$cookieStore.getCookie( 'uid'),
           date:time.toLocaleDateString(),
-          score:this.comments[0].score*2,
+          score:typeof(this.comments[0]) == "undefined"?this.new_comment.score*2:this.comments[0].score,
           text:this.new_comment.text,
         }
         _this.$axios
@@ -309,7 +320,7 @@ export default {
             if(response.data){
               data.u_pic = response.data.u_pic
               data.name = response.data.name
-              let current_user_index = _this.comments.findIndex(function(elem){return elem.uid==_this.GLOBAL.uid})
+              let current_user_index = _this.comments.findIndex(function(elem){return elem.uid==_this.$cookieStore.getCookie( 'uid')})
               if(current_user_index != -1){
                 _this.comments[current_user_index].text = data.text
               }else{
@@ -335,10 +346,12 @@ export default {
 </script>
 
 <style >
-.el-card{
+/* .el-card{
   border:none !important;
-  margin-bottom: 1rem;
-}
+  margin-bottom: 0.5rem;
+  padding-bottom: 1.5rem;
+  max-height: 228px !important;
+} */
 .image{
   width: 100%;
   max-width: 135px !important;
@@ -348,8 +361,39 @@ export default {
 .el-rate__text{
   font-size: 26px !important;
 }
+.card-warrper .el-card{
+  border:  none !important;
+}
+.comment-card-warrper .el-card{
+  border: none !important;
+}
 </style>
 <style scoped>
+.comment-img{
+  position: relative; 
+  width: 100%; 
+  height: 0; 
+  overflow: hidden; 
+  margin: 0; 
+  padding-bottom: 100%; /* 关键就在这里 */ 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  background-size: cover; 
+  border-radius: 10px;
+}
+.comment-img-warrper{
+  width: 100px;
+}
+.card-warrper{
+  border:none !important;
+  margin-bottom: 0.5rem;
+  padding-bottom: 1.5rem;
+  max-height: 228px !important;
+}
+.comment-card-warrper{
+  border: none;
+}
+
 .router-link-text{
   color: rgb(96,98,102) !important;
   text-decoration: none;

@@ -1,66 +1,67 @@
 <template>
-<el-container  direction="vertical">
-<!--   <el-header>
-    <el-col :span="12">                 
-  <el-menu :default-active="this.$route.path"  mode="horizontal">
-    <el-menu-item v-for="(item,i) in navList" :key="i" :index="item.name" @click="route(i)">   
-        {{ item.navItem }}
-    </el-menu-item>
-  </el-menu>
-  </el-col>
-  <el-col :span="12">
-    <el-select                       
-    v-model="value"
-    multiple
-    filterable
-    remote
-    reserve-keyword
-    placeholder="请输入关键词"
-    :remote-method="remoteMethod"
-    :loading="loading">               
-    <el-option
-      v-for="item in options"
-      :key="item.value"
-      :label="item.label"
-      :value="item.value">
-    </el-option>
-  </el-select>
- <el-button type="primary" icon="el-icon-search">搜索</el-button>    
- <el-button type="primary" icon="el-icon-user-solid" @click="ChangePersonalInfo()">修改个人信息</el-button> 
- <el-button type="primary" icon="el-icon-user-solid" @click="Logout()" class="LogoutAdmin">退出登录</el-button> 
-  </el-col>
-   </el-header> -->
-  
-   <NavBar :uid = uid :isSearch=true></NavBar> 
-  <el-main>
-    <el-carousel :interval="4000" type="card" height="370px">
-      <el-carousel-item v-for="item in imagebox" :key="item.id">
-        <img :src="item.idView" class="image">
-      </el-carousel-item>
-    </el-carousel>>
-    <el-row>
-      <el-col :span="12" class="col1">
-        <el-card class="box-card1" shadow="never">
-        <div slot="header" class="clearfix1" style="font-size:150%;font-family:Microsoft YaHei;">
-        <span>个性推荐</span>
-        </div>
-          <div v-for="(item,o) in RecommandList" :key="o" :index="item.Name" class="text item">  
-         {{ o +'item.RecommandList'}}
-        </div>
-        </el-card>
-      </el-col>
-      <el-col :span="12" class="col2">
-        <el-card class="box-card2" shadow="never" style="font-size:150%;font-family:Microsoft YaHei;">
-        <div slot="header" class="clearfix2">
-        <span>评分排行榜</span>
-        </div>
-        <div v-for="(item,p) in RatingList" :key="p" :index="item.Name" class="text item">  
-         {{ p +'item.RatingList'}}
-        </div>
-        </el-card>
-      </el-col>
-    </el-row>
-</el-main>
+<el-container  direction="vertical" >
+   <NavBar :uid = this.GLOBAL.uid :isSearch=true></NavBar> 
+   <div class="warrper">
+    <el-main>
+      <el-carousel :interval="8000" type="card" >
+        <el-carousel-item v-for="item in imagebox" :key="item.id" >
+          <router-link :to="{path:'/Comment',query:{mid:item.mid}}" class="router-link-text">
+          <img :src="item.idView" class="carousel-img" >
+          </router-link>
+        </el-carousel-item>
+      </el-carousel>
+      <el-row>
+        <el-col :span="18" >
+          <div class="recommend-warrper">
+            <el-card :body-style="{padding: '0px'}" shadow="never">
+              <div  >
+              <h2>个性推荐</h2>
+              </div>
+               <el-divider></el-divider>
+              <el-row > 
+                  <el-col :span="4" v-for="(movie,index) in RecommandList.slice(0,12) " :key="index"  style="height:250px; max-height:250px; overflow:hidden;">
+                    <div class="card-warrper ">
+                      <el-card :body-style="{padding: '0px'}" shadow="never" >
+                        <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
+                        
+                        <img :src="movie.related_pic" class="image">
+
+                        <div style="padding: 0px;" >
+                          <span>{{movie.name}}</span>
+                          <span style="padding:10px;"> {{movie.score}}</span>
+                        </div>
+                        </router-link>
+                      </el-card>
+                    </div>
+                  </el-col>
+                </el-row> 
+            </el-card>
+          </div>
+        </el-col>
+        <el-col :span="5" :offset="1">
+          <div class="rank-panel">
+            <div>
+              <span style="font-size:18px;font-weight:700;">排行</span>
+            </div>
+            <div style="margin-top:1.5rem"></div>
+            <el-divider></el-divider>
+            <div style="margin-top:1rem">
+            </div>
+            <el-card   shadow="never" :body-style="{padding: '0px'}">
+              <div v-for="(movie,p) in RatingList.slice(0,10)" :key="p"  class="text item">  
+              <router-link :to="{path:'/Comment',query:{mid:movie.mid}}" class="router-link-text">
+                  <div style="padding: 0px;" >
+                    <span style="color:rgb(51, 119, 170);">{{p+1+' '+movie.name}}</span>
+                  </div>
+                  </router-link>
+                  <el-divider></el-divider>
+              </div>
+              </el-card>
+          </div>
+        </el-col>
+      </el-row>
+  </el-main>
+</div>
 </el-container>
 </template>
 
@@ -74,12 +75,14 @@ export default {
     },
      data() {
       return {
-        RecommandList:[],      /*主页推荐列表存在这,电影名为Name*/
-        RatingList:[],             /*主页评分排行榜,电影名为Name*/
+        RecommandList:[
+        ],      
+        RatingList:[
+        ],            
 
-        imagebox:[{id:0,idView:''},
-        {id:1,idView:''},
-        {id:2,idView:''}
+        imagebox:[{id:0,idView:require('../assets/images/4.jpg'),mid:1291546},
+        {id:1,idView:require('../assets/images/5.jpg'),mid:1295124},
+        {id:2,idView:require('../assets/images/6.jpeg'),mid:1291561}
         //imagebox是assets下一个放图片的文件夹
         ],
         zmdHeight :700,
@@ -94,18 +97,20 @@ export default {
           // 通过浏览器宽度(图片宽度)计算高度
           this.bannerHeight = 400 / 1920 * this.screenWidth;   //图片轮播自适应函数
         },
-      ChangePersonalInfo()
-      {
-        window.location.href="/UserChangeInfo";
+      getRecommend(){
+        var _this = this
+        let data  = new FormData()
+        data.append('uid',this.$cookieStore.getCookie( 'uid'))
+        _this.$axios
+          .post(_this.GLOBAL.baseURL+'recommendToUser',data)
+          .then(function (response){
+            _this.RecommandList = response.data.slice(0,20)
+            _this.RatingList = response.data.slice(20)
+          }) 
       },
-        Logout()
-        {
-          window.location.href="/";
-        }
     },
     mounted() {
-      this.uid = this.$route.params.uid
-      console.log(this.GLOBAL.uid)
+      this.getRecommend()
       // 首次加载时,需要调用一次
       this.screenWidth =  window.innerWidth;
       this.setSize();
@@ -119,7 +124,39 @@ export default {
 </script>
 
 
+<style>
+
+
+
+.rank-panel .el-card{
+  border: none ;
+}
+.rank-panel .el-divider--horizontal{
+  margin:0 !important;
+  margin-top: 0.5rem !important;
+}
+
+.recommend-warrper .el-card{
+  border: none !important;
+}
+
+</style>
+
+
 <style scoped>
+.rank-panel{
+  margin-top:1rem
+}
+
+.recommend-warrper{
+  border:none;
+}
+
+.warrper{
+  
+  width:1300px;
+  margin: 0 auto;
+}
 .note::before{
   content:"";
   /*-webkit-filter: opacity(50%);  
@@ -175,10 +212,6 @@ export default {
     clear: both
   }
 
-  .el-container /deep/ .box-card1  {
-    width: 550px;
-    margin: 50px 300px;
-  }
     .el-container /deep/ .clearfix2:before,
   .el-container /deep/ .clearfix2:after {
     display: table;
@@ -188,24 +221,16 @@ export default {
     clear: both
   }
 
-  .el-container /deep/ .box-card2 {
-    width: 550px;
-    margin: 50px 100px;
-  }
-.el-col {
-  height: 600px;
-}
-.col1 {
-  background-color: #fff;
-}
-.col2 {
-  background-color: #fff;
-}
+
+
   
-img{
-     /*设置图片宽度和浏览器宽度一致*/
+/* img{
       width:100%;
       height:inherit;
-    }
+    } */
+
+.carousel-img{
+  width: 100%;
+}
 
 </style>
